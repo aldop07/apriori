@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd
 from mlxtend.frequent_patterns import apriori, association_rules
@@ -48,4 +47,3 @@ if st.button("PROSES"):
     # Menampilkan hasil algoritma apriori dalam bentuk dataframe
         st.dataframe(rules.applymap(lambda x: ','.join(x) if type(x) == frozenset else x))
         #st.dataframe(tabular)
-        st.success('Prosess Berhasil')
