@@ -1,3 +1,5 @@
-pandas
-streamlit
-mlxtend
+pandas==1.5.2
+streamlit==1.16.0
+mlxtend==0.21.0
+pip==22.3.1
+xlrd==2.0.1
