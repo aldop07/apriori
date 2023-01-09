@@ -17,3 +17,13 @@ Then, there are several steps that are taken in the above program, including:
 - Building an apriori model using apriori().
 - Organizing the rules in a dataframe using association_rules().
 - Displaying the results of the apriori algorithm in a dataframe using st.dataframe().
+
+ex :
+
+| Invoice | Product Name |
+|---------|--------------|
+| A30     | A1           |
+| A30     | A3           |
+| B35     | B1           |
+| A02     | A1           |
+| A02     | E1           |
