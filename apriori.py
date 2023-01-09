@@ -10,7 +10,7 @@ uploaded_file = st.file_uploader("Pilih file Excel yang akan diinputkan:", type=
 if uploaded_file is None:
     st.write("Tidak ada file yang diupload.")
 
-df = pd.read_excel(uploaded_file, sheet_name='Sheet1')
+df = pd.read_excel(uploaded_file)
 
  
     # Buat menjadi tabulasi data
