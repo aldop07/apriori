@@ -28,7 +28,7 @@ def hot_encode(x) :
     # Buat data menjadi binominal
 tabular_encode = tabular.applymap(hot_encode)
 
-    # Menentukan nilai minimum support dan minimum confidence
+    # Menentukan nilai minimum support
 minimum_support = st.number_input("Nilai minimum support:",0.0)
 if minimum_support <= 0:
         st.warning("Nilai minimum support tidak boleh kosong atau nol.")
@@ -39,11 +39,13 @@ frq_items = apriori(tabular_encode, min_support=minimum_support, use_colnames= T
     # Mengumpulkan aturan dalam dataframe
 rules = association_rules(frq_items, metric="lift",min_threshold=1)
 rules = rules.sort_values(['confidence','lift'], ascending=[False, False])
+
     # Menampilkan hasil algoritma apriori
 if st.button("PROSES"):
         st.success('HASIL PERHITUNGAN APRIORI')
+        
     # Mengubah nilai support, confidence, dan lift menjadi persentase
         rules[["antecedent support","consequent support","support","confidence"]] = rules[["antecedent support","consequent support","support","confidence"]].applymap(lambda x: "{:.2f}%".format(x*100))
+    
     # Menampilkan hasil algoritma apriori dalam bentuk dataframe
         st.dataframe(rules.applymap(lambda x: ','.join(x) if type(x) == frozenset else x))
-        #st.dataframe(tabular)
