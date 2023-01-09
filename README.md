@@ -1,4 +1,4 @@
-# apriori
+# Apriori
 Apriori algorithm in python
 
 In the above program, there are several libraries that are imported, including:
