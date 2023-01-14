@@ -29,11 +29,11 @@ def hot_encode(x) :
 tabular_encode = tabular.applymap(hot_encode)
 
 # Menentukan nilai minimum support
-minimum_support = st.number_input("Nilai minimum support:",0.01,'%')
+minimum_support = st.number_input("Nilai minimum support:",0.01)
 if minimum_support <= 0:
     st.warning("Nilai minimum support tidak boleh kosong atau nol.")
     
-minimum_confidence = st.number_input("Nilai minimum confidence:",0.01,'%')
+minimum_confidence = st.number_input("Nilai minimum confidence:",0.01)
 if minimum_confidence <= 0:
     st.warning("Nilai minimum confidence tidak boleh kosong atau nol.")
 
