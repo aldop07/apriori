@@ -20,7 +20,7 @@ Then, there are several steps that are taken in the above program, including:
 
 ex :
 
-https://aldop07-apriori-apriori-4kwr90.streamlit.app/
+https://python-mba.streamlit.app/
 
 | Invoice | Product Name |
 |---------|--------------|
