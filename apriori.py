@@ -1,8 +1,8 @@
 import streamlit as st
 import pandas as pd
 from mlxtend.frequent_patterns import apriori, association_rules
-# Tampilan menu Apriori
 
+# Tampilan menu Apriori
 st.header('Apriori')
     
 # Baca data transaksi dari database
