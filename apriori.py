@@ -38,16 +38,16 @@ if uploaded_file:
         rules = association_rules(frq_items, metric="lift",min_threshold=minimum_confidence)
         rules = rules.sort_values(['confidence','lift'], ascending=[False, False])
 
-        # Menampilkan hasil algoritma apriori
-        if st.button("PROSES"):
-            st.success('HASIL PERHITUNGAN APRIORI')
+   # Menampilkan hasil algoritma apriori
+    if st.button("PROSES"):
+        st.success('HASIL PERHITUNGAN APRIORI')
 
-            # Mengubah nilai support, confidence, dan lift menjadi persentase
-            rules[["antecedent support","consequent support","support","confidence"]] = rules[["antecedent support","consequent support","support","confidence"]].applymap(lambda x: "{:.2f}%".format(x*100))
+        # Mengubah nilai support, confidence, dan lift menjadi persentase
+        rules[["antecedent support","consequent support","support","confidence"]] = rules[["antecedent support","consequent support","support","confidence"]].applymap(lambda x: "{:.2f}%".format(x*100))
 
-            # Menampilkan hasil algoritma apriori dalam bentuk dataframe
-            st.dataframe(rules.applymap(lambda x: ','.join(x) if type(x) == frozenset else x))
-        else:
-            st.warning("aturan asosiasi tidak dapat diproses")
+        # Menampilkan hasil algoritma apriori dalam bentuk dataframe
+        st.dataframe(rules.applymap(lambda x: ','.join(x) if type(x) == frozenset else x))
+    else:
+        st.warning("aturan asosiasi tidak dapat diproses")
 else:
     st.write("Tidak ada file yang diupload.")
