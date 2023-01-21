@@ -9,42 +9,45 @@ st.header('Apriori')
 uploaded_file = st.file_uploader("Pilih file Excel yang akan diinputkan:")
 if uploaded_file:
     df = pd.read_excel(uploaded_file)
-    A = st.text_input ('Masukan Index A')
-    B = st.text_input ('Masukan Index B')
+    A = st.text_input ('Masukkan Index A')
+    B = st.text_input ('Masukkan Index B')
     
-    # Menentukan nilai minimum support
-    minimum_support = st.number_input("Nilai minimum support:",0.01)
-    minimum_confidence = st.number_input("Nilai minimum confidence:",0.01)
-    
-    tabular = pd.crosstab (df[A],df[B])
+    if A not in df.columns or B not in df.columns:
+        st.warning("Index yang Anda masukkan tidak ditemukan dalam file yang diupload")
+    else: 
+        # Menentukan nilai minimum support
+        minimum_support = st.number_input("Nilai minimum support:",0.01)
+        minimum_confidence = st.number_input("Nilai minimum confidence:",0.01)
 
-    # Data dibaca dengan cara encoding
-    def hot_encode(x) :
-        if (x<=0):
-            return 0
-        if (x>=1):
-            return 1
+        tabular = pd.crosstab (df[A],df[B])
 
-    # Buat data menjadi binominal
-    tabular_encode = tabular.applymap(hot_encode)
+        # Data dibaca dengan cara encoding
+        def hot_encode(x) :
+            if (x<=0):
+                return 0
+            if (x>=1):
+                return 1
 
-    # Bangun model apriori
-    frq_items = apriori(tabular_encode, min_support=minimum_support, use_colnames= True)
+        # Buat data menjadi binominal
+        tabular_encode = tabular.applymap(hot_encode)
 
-    # Mengumpulkan aturan dalam dataframe
-    rules = association_rules(frq_items, metric="lift",min_threshold=minimum_confidence)
-    rules = rules.sort_values(['confidence','lift'], ascending=[False, False])
+        # Bangun model apriori
+        frq_items = apriori(tabular_encode, min_support=minimum_support, use_colnames= True)
 
-    # Menampilkan hasil algoritma apriori
-    if st.button("PROSES"):
-        st.success('HASIL PERHITUNGAN APRIORI')
+        # Mengumpulkan aturan dalam dataframe
+        rules = association_rules(frq_items, metric="lift",min_threshold=minimum_confidence)
+        rules = rules.sort_values(['confidence','lift'], ascending=[False, False])
 
-        # Mengubah nilai support, confidence, dan lift menjadi persentase
-        rules[["antecedent support","consequent support","support","confidence"]] = rules[["antecedent support","consequent support","support","confidence"]].applymap(lambda x: "{:.2f}%".format(x*100))
+        # Menampilkan hasil algoritma apriori
+        if st.button("PROSES"):
+            st.success('HASIL PERHITUNGAN APRIORI')
 
-        # Menampilkan hasil algoritma apriori dalam bentuk dataframe
-        st.dataframe(rules.applymap(lambda x: ','.join(x) if type(x) == frozenset else x))
+            # Mengubah nilai support, confidence, dan lift menjadi persentase
+            rules[["antecedent support","consequent support","support","confidence"]] = rules[["antecedent support","consequent support","support","confidence"]].applymap(lambda x: "{:.2f}%".format(x*100))
+
+            # Menampilkan hasil algoritma apriori dalam bentuk dataframe
+            st.dataframe(rules.applymap(lambda x: ','.join(x) if type(x) == frozenset else x))
         else:
-        st.warning("aturan asosiasi tidak dapat diproses")
+            st.warning("aturan asosiasi tidak dapat diproses")
 else:
     st.write("Tidak ada file yang diupload.")
