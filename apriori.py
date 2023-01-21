@@ -41,7 +41,7 @@ if uploaded_file:
         frq_items = apriori(tabular_encode, min_support=minimum_support, use_colnames= True)
 
         # Mengumpulkan aturan dalam dataframe
-        rules = association_rules(frq_items, metric="lift",min_threshold=minimum_confidence)
+        rules = association_rules(frq_items, metric="confidence",min_threshold=minimum_confidence)
         rules = rules.sort_values(['confidence','lift'], ascending=[False, False])
         
         # Mengubah nilai support, confidence, dan lift menjadi persentase
