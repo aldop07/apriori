@@ -6,12 +6,16 @@ from mlxtend.frequent_patterns import apriori, association_rules
 st.header('Apriori')
 
 # Baca data transaksi dari database
-uploaded_file = st.file_uploader("Pilih file Excel yang akan diinputkan:", type=["xlsx"])
+uploaded_file = st.file_uploader("Pilih file Excel yang akan diinputkan:")
 if uploaded_file:
     df = pd.read_excel(uploaded_file)
     A = st.text_input ('Masukan Index A')
     B = st.text_input ('Masukan Index B')
-
+    
+    # Menentukan nilai minimum support
+    minimum_support = st.number_input("Nilai minimum support:",0.01)
+    minimum_confidence = st.number_input("Nilai minimum confidence:",0.01)
+    
     tabular = pd.crosstab (df[A],df[B])
 
     # Data dibaca dengan cara encoding
@@ -23,15 +27,6 @@ if uploaded_file:
 
     # Buat data menjadi binominal
     tabular_encode = tabular.applymap(hot_encode)
-
-    # Menentukan nilai minimum support
-    minimum_support = st.number_input("Nilai minimum support:",0.01)
-    if minimum_support <= 0:
-        st.warning("Nilai minimum support tidak boleh kosong atau nol.")
-
-    minimum_confidence = st.number_input("Nilai minimum confidence:",0.01)
-    if minimum_confidence <= 0:
-        st.warning("Nilai minimum confidence tidak boleh kosong atau nol.")
 
     # Bangun model apriori
     frq_items = apriori(tabular_encode, min_support=minimum_support, use_colnames= True)
@@ -49,5 +44,7 @@ if uploaded_file:
 
         # Menampilkan hasil algoritma apriori dalam bentuk dataframe
         st.dataframe(rules.applymap(lambda x: ','.join(x) if type(x) == frozenset else x))
+        else:
+        st.warning("aturan asosiasi tidak dapat diproses")
 else:
     st.write("Tidak ada file yang diupload.")
