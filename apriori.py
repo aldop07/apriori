@@ -34,6 +34,7 @@ if uploaded_file:
    # Menampilkan hasil algoritma apriori
     if st.button("PROSES"):
         st.success('HASIL PERHITUNGAN APRIORI')
+        
         # Bangun model apriori
         frq_items = apriori(tabular_encode, min_support=minimum_support, use_colnames= True)
 
