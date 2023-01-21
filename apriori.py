@@ -12,12 +12,13 @@ if uploaded_file:
     A = st.text_input ('Masukkan Index A')
     B = st.text_input ('Masukkan Index B')
     
+    # Menentukan nilai minimum support
+    minimum_support = st.number_input("Nilai minimum support:",0.01)
+    minimum_confidence = st.number_input("Nilai minimum confidence:",0.01)
+    
     if A not in df.columns or B not in df.columns:
         st.warning("Index yang Anda masukkan tidak ditemukan dalam file yang diupload")
     else: 
-        # Menentukan nilai minimum support
-        minimum_support = st.number_input("Nilai minimum support:",0.01)
-        minimum_confidence = st.number_input("Nilai minimum confidence:",0.01)
 
         tabular = pd.crosstab (df[A],df[B])
 
