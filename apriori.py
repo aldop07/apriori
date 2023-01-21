@@ -6,7 +6,7 @@ from mlxtend.frequent_patterns import apriori, association_rules
 st.header('Market Basket Analisis')
 
 # Baca data transaksi dari database
-uploaded_file = st.file_uploader("Pilih file Excel yang akan diinputkan:")
+uploaded_file = st.file_uploader("Pilih file Excel yang akan diupload:")
 if uploaded_file:
     df = pd.read_excel(uploaded_file)
     A = st.text_input ('Masukkan Index A')
