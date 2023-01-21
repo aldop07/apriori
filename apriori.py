@@ -3,7 +3,7 @@ import pandas as pd
 from mlxtend.frequent_patterns import apriori, association_rules
 
 # Tampilan menu Apriori
-st.header('Market Basket Analisis')
+st.header('Market Basket Analysis')
 
 # Baca data transaksi dari database
 uploaded_file = st.file_uploader("Pilih file Excel yang akan diupload:")
