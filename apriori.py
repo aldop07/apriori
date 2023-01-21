@@ -3,7 +3,7 @@ import pandas as pd
 from mlxtend.frequent_patterns import apriori, association_rules
 
 #IRFAN NOVALDO HUANG
-# Tampilan menu Apriori
+# Tampilan menu Market Basket Analysis
 st.header('Market Basket Analysis')
 
 # Baca data transaksi dari database
