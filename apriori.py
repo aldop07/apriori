@@ -48,6 +48,6 @@ if uploaded_file:
         # Menampilkan hasil algoritma apriori dalam bentuk dataframe
         st.dataframe(rules.applymap(lambda x: ','.join(x) if type(x) == frozenset else x))
     else:
-        st.warning("aturan asosiasi tidak dapat diproses")
+        st.warning("Tidak ada aturan yang diproses")
 else:
     st.write("Tidak ada file yang diupload.")
