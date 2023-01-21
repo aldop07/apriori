@@ -20,6 +20,7 @@ if uploaded_file:
     if A not in df.columns or B not in df.columns:
         st.warning("Index yang Anda masukkan tidak ditemukan dalam file yang diupload")
     else: 
+        #Data dibuat tabulasi
         tabular = pd.crosstab (df[A],df[B])
 
         # Data dibaca dengan cara encoding
