@@ -40,7 +40,7 @@ if uploaded_file:
 
         # Mengumpulkan aturan dalam dataframe
         rules = association_rules(frq_items, metric="lift",min_threshold=minimum_confidence)
-        rules = rules.sort_values(['confidence','lift'], ascending=[False, False])
+        #rules = rules.sort_values(['confidence','lift'], ascending=[False, False])
         
         # Mengubah nilai support, confidence, dan lift menjadi persentase
         rules[["antecedent support","consequent support","support","confidence"]] = rules[["antecedent support","consequent support","support","confidence"]].applymap(lambda x: "{:.2f}%".format(x*100))
