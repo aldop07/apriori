@@ -10,8 +10,9 @@ st.header('Market Basket Analysis')
 uploaded_file = st.file_uploader("Pilih file Excel yang akan diupload:")
 if uploaded_file:
     df = pd.read_excel(uploaded_file)
-    A = st.text_input ('Masukkan Index A / Invoice')
-    B = st.text_input ('Masukkan Index B / Produk')
+    index_list = df.columns.tolist()
+    A = st.selectbox ('Masukkan Index A / Invoice',index_list)
+    B = st.selectbox ('Masukkan Index B / Produk',index_list)
     
     # Menentukan nilai minimum support
     minimum_support = st.number_input("Nilai minimum support:",0.01)
