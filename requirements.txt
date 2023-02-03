@@ -1,6 +1,5 @@
 pandas
 streamlit
 mlxtend
-pip
 xlrd
 openpyxl
