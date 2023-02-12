@@ -21,12 +21,9 @@ if uploaded_file:
    # Menampilkan hasil algoritma apriori
     if st.button("PROSES"):
         st.success('HASIL PERHITUNGAN APRIORI')
-        
-        if A not in df.columns or B not in df.columns:
-            st.warning("Index yang Anda masukkan tidak ditemukan dalam file yang diupload")
-        else: 
-            #Data dibuat tabulasi
-            tabular = pd.crosstab (df[A],df[B])
+
+        #Data dibuat tabulasi
+        tabular = pd.crosstab (df[A],df[B])
 
         # Data dibaca dengan cara encoding
         def hot_encode(x) :
