@@ -17,6 +17,8 @@ if uploaded_file:
     # Menentukan nilai minimum support
     minimum_support = st.number_input("Nilai minimum support:",0.01)
     minimum_confidence = st.number_input("Nilai minimum confidence:",0.01)
+    st.write({A})
+    st.write({B})
 
    # Menampilkan hasil algoritma apriori
     if st.button("PROSES"):
