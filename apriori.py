@@ -17,12 +17,16 @@ if uploaded_file:
     # Menentukan nilai minimum support
     minimum_support = st.number_input("Nilai minimum support:",0.01)
     minimum_confidence = st.number_input("Nilai minimum confidence:",0.01)
-    
-    if A not in df.columns or B not in df.columns:
-        st.warning("Index yang Anda masukkan tidak ditemukan dalam file yang diupload")
-    else: 
-        #Data dibuat tabulasi
-        tabular = pd.crosstab (df[A],df[B])
+
+   # Menampilkan hasil algoritma apriori
+    if st.button("PROSES"):
+        st.success('HASIL PERHITUNGAN APRIORI')
+        
+        if A not in df.columns or B not in df.columns:
+            st.warning("Index yang Anda masukkan tidak ditemukan dalam file yang diupload")
+        else: 
+            #Data dibuat tabulasi
+            tabular = pd.crosstab (df[A],df[B])
 
         # Data dibaca dengan cara encoding
         def hot_encode(x) :
@@ -33,10 +37,6 @@ if uploaded_file:
 
         # Buat data menjadi binominal
         tabular_encode = tabular.applymap(hot_encode)
-
-   # Menampilkan hasil algoritma apriori
-    if st.button("PROSES"):
-        st.success('HASIL PERHITUNGAN APRIORI')
         
         # Bangun model apriori
         frq_items = apriori(tabular_encode, min_support=minimum_support, use_colnames= True)
