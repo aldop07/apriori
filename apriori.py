@@ -19,6 +19,8 @@ if uploaded_file:
     minimum_confidence = st.number_input("Nilai minimum confidence:",0.01)
     st.write({A})
     st.write({B})
+    st.write(A)
+    st.write(B)
 
    # Menampilkan hasil algoritma apriori
     if st.button("PROSES"):
