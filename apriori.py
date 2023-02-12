@@ -11,16 +11,12 @@ uploaded_file = st.file_uploader("Pilih file Excel yang akan diupload:")
 if uploaded_file:
     df = pd.read_excel(uploaded_file)
     index_list = df.columns.tolist()
-    A = st.selectbox ('Masukkan Index X / Invoice',index_list)
-    B = st.selectbox ('Masukkan Index Y / Produk',index_list)
+    A = st.selectbox ('X / Invoice',index_list)
+    B = st.selectbox ('Y / Product',index_list)
     
     # Menentukan nilai minimum support
     minimum_support = st.number_input("Nilai minimum support:",0.01)
     minimum_confidence = st.number_input("Nilai minimum confidence:",0.01)
-    st.write({A})
-    st.write({B})
-    st.write(A)
-    st.write(B)
 
    # Menampilkan hasil algoritma apriori
     if st.button("PROSES"):
