@@ -15,7 +15,7 @@ if uploaded_file:
     B = st.selectbox ('Y / Product',index_list)
     
     # Menentukan nilai minimum support
-    minimum_support = st.number_input("Nilai minimum support:",0.01)
+    minimum_support = st.number_input("Nilai minimum support:",0.01,"%")
     minimum_confidence = st.number_input("Nilai minimum confidence:",0.01)
 
    # Menampilkan hasil algoritma apriori
