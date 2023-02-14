@@ -23,7 +23,6 @@ if uploaded_file:
         df[C] = pd.to_datetime(df[C])  # Mengubah kolom tanggal menjadi tipe datetime
         tanggal_mulai = st.date_input("Tanggal Mulai", value=pd.to_datetime(df[C]).min(), max_value=pd.to_datetime(df[C]).max())
         tanggal_akhir = st.date_input("Tanggal Akhir", value=pd.to_datetime(df[C]).max(), min_value=pd.to_datetime(df[C]).min())
-        df = df[(df[C] >= pd.to_datetime(tanggal_mulai)) & (df[C] <= pd.to_datetime(tanggal_akhir))]
     
     
     # Menentukan nilai minimum support
@@ -35,6 +34,12 @@ if uploaded_file:
    # Menampilkan hasil algoritma apriori
     if st.button("PROSES"):
         st.success('HASIL PERHITUNGAN APRIORI')
+
+        if all:
+            df = df[(df[C] >= pd.to_datetime(tanggal_mulai)) & (df[C] <= pd.to_datetime(tanggal_akhir))]
+        else:
+            pass # jangan lakukan apapun jika tidak all dicentang
+            
 
         #Data dibuat tabulasi
         tabular = pd.crosstab (df[A],df[B])
