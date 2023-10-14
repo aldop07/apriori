@@ -10,9 +10,18 @@ st.set_page_config(page_title="MBA", page_icon=icon)
 st.header('Market Basket Analysis')
 
 # Baca data transaksi dari database
+xlsx = st.checkbox('xlsx')
+csv = st.checkbox('csv')
 uploaded_file = st.file_uploader("Pilih file Excel yang diupload:")
 if uploaded_file:
-    df = pd.read_excel(uploaded_file)
+    if xlsx :
+        df = pd.read_excel(uploaded_file)
+    else:
+        pass
+    if csv :
+        df = pd.read_csv(uploaded_file)
+    else:
+        pass
     index_list = df.columns.tolist()
     A = st.selectbox ('X / Invoice',index_list)
     B = st.selectbox ('Y / Product',index_list)
