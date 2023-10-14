@@ -22,12 +22,9 @@ if uploaded_file:
         df = pd.read_csv(uploaded_file)
     else:
         pass
-    if not xlsx and csv:
-        st.warning("Pilih tipe file")
-    else:
-        index_list = df.columns.tolist()
-        A = st.selectbox ('X / Invoice',index_list)
-        B = st.selectbox ('Y / Product',index_list)
+    index_list = df.columns.tolist()
+    A = st.selectbox ('X / Invoice',index_list)
+    B = st.selectbox ('Y / Product',index_list)
     
         #all = st.checkbox('Pilih Berdasarkan Tanggal')
         #if all:
@@ -37,11 +34,11 @@ if uploaded_file:
         #    tanggal_akhir = st.date_input("Tanggal Akhir", value=pd.to_datetime(df[C]).max(), min_value=pd.to_datetime(df[C]).min())
         
         
-        # Menentukan nilai minimum support
-        minimum_support_percentage = st.number_input("Minimum Support: ( % )", min_value=1, max_value=100)
-        minimum_support = minimum_support_percentage / 100
-        minimum_confidence_percentage = st.number_input("Minimum Confidence: ( % )", min_value=1, max_value=100)
-        minimum_confidence = minimum_confidence_percentage / 100
+    # Menentukan nilai minimum support
+    minimum_support_percentage = st.number_input("Minimum Support: ( % )", min_value=1, max_value=100)
+    minimum_support = minimum_support_percentage / 100
+    minimum_confidence_percentage = st.number_input("Minimum Confidence: ( % )", min_value=1, max_value=100)
+    minimum_confidence = minimum_confidence_percentage / 100
 
    # Menampilkan hasil algoritma apriori
     if st.button("PROSES"):
