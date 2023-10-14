@@ -22,23 +22,26 @@ if uploaded_file:
         df = pd.read_csv(uploaded_file)
     else:
         pass
-    index_list = df.columns.tolist()
-    A = st.selectbox ('X / Invoice',index_list)
-    B = st.selectbox ('Y / Product',index_list)
-
-    #all = st.checkbox('Pilih Berdasarkan Tanggal')
-    #if all:
-    #    C = st.selectbox('Pilih Kolom Tanggal', index_list)
-    #    df[C] = pd.to_datetime(df[C])  # Mengubah kolom tanggal menjadi tipe datetime
-    #    tanggal_mulai = st.date_input("Tanggal Mulai", value=pd.to_datetime(df[C]).min(), max_value=pd.to_datetime(df[C]).max())
-    #    tanggal_akhir = st.date_input("Tanggal Akhir", value=pd.to_datetime(df[C]).max(), min_value=pd.to_datetime(df[C]).min())
+    if not xlsx and csv:
+        st.warning("Pilih tipe file")
+    else:
+        index_list = df.columns.tolist()
+        A = st.selectbox ('X / Invoice',index_list)
+        B = st.selectbox ('Y / Product',index_list)
     
-    
-    # Menentukan nilai minimum support
-    minimum_support_percentage = st.number_input("Minimum Support: ( % )", min_value=1, max_value=100)
-    minimum_support = minimum_support_percentage / 100
-    minimum_confidence_percentage = st.number_input("Minimum Confidence: ( % )", min_value=1, max_value=100)
-    minimum_confidence = minimum_confidence_percentage / 100
+        #all = st.checkbox('Pilih Berdasarkan Tanggal')
+        #if all:
+        #    C = st.selectbox('Pilih Kolom Tanggal', index_list)
+        #    df[C] = pd.to_datetime(df[C])  # Mengubah kolom tanggal menjadi tipe datetime
+        #    tanggal_mulai = st.date_input("Tanggal Mulai", value=pd.to_datetime(df[C]).min(), max_value=pd.to_datetime(df[C]).max())
+        #    tanggal_akhir = st.date_input("Tanggal Akhir", value=pd.to_datetime(df[C]).max(), min_value=pd.to_datetime(df[C]).min())
+        
+        
+        # Menentukan nilai minimum support
+        minimum_support_percentage = st.number_input("Minimum Support: ( % )", min_value=1, max_value=100)
+        minimum_support = minimum_support_percentage / 100
+        minimum_confidence_percentage = st.number_input("Minimum Confidence: ( % )", min_value=1, max_value=100)
+        minimum_confidence = minimum_confidence_percentage / 100
 
    # Menampilkan hasil algoritma apriori
     if st.button("PROSES"):
