@@ -61,9 +61,8 @@ if uploaded_file:
                 return 1
 
         # Buat data menjadi binominal
-        #tabular_encode = tabular.applymap(hot_encode)
-        te = TransactionEncoder()
-        tabular_encode = te.fit(tabular).transform(tabular)
+        tabular_encode = tabular.applymap(hot_encode)
+        
         # Bangun model apriori
         frq_items = apriori(tabular_encode, min_support=minimum_support, use_colnames= True)
 
