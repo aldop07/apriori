@@ -35,9 +35,9 @@ if uploaded_file:
         
         
     # Menentukan nilai minimum support
-    minimum_support = st.number_input("Minimum Support: ( % )", max_value=100)
+    minimum_support = st.number_input("Minimum Support: ( % )", max_value=100.00)
     #minimum_support = minimum_support_percentage / 100
-    minimum_confidence = st.number_input("Minimum Confidence: ( % )", max_value=100)
+    minimum_confidence = st.number_input("Minimum Confidence: ( % )", max_value=100.00)
     #minimum_confidence = minimum_confidence_percentage / 100
 
    # Menampilkan hasil algoritma apriori
