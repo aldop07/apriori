@@ -75,7 +75,13 @@ if uploaded_file:
 
         # Menampilkan hasil algoritma apriori dalam bentuk dataframe
         st.dataframe(rules.applymap(lambda x: ','.join(x) if type(x) == frozenset else x))
-        st.dataframe(tabular)
+        # Fungsi untuk memberi warna kuning pada nilai > 0
+        def color_positive(val):
+            color = 'yellow' if val > 0 else 'white'
+            return f'background-color: {color}'
+        # Menerapkan fungsi ke seluruh DataFrame
+        styled_tabular = tabular.style.applymap(color_positive)
+        st.dataframe(styled_tabular)
     else:
         st.warning("Tidak ada aturan yang diproses")
 else:
