@@ -49,7 +49,7 @@ if uploaded_file:
             
     # Menerapkan fungsi ke seluruh DataFrame
     styled_tabular = tabular.style.applymap(color_positive)
-    st.dataframe(styled_tabular)
+
     
     # Data dibaca dengan cara encoding
     def hot_encode(x) :
@@ -82,6 +82,7 @@ if uploaded_file:
 
         # Menampilkan hasil algoritma apriori dalam bentuk dataframe
         st.dataframe(rules.applymap(lambda x: ','.join(x) if type(x) == frozenset else x))
+        st.dataframe(styled_tabular)
     else:
         st.warning("Tidak ada aturan yang diproses")
 else:
