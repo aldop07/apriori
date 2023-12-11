@@ -79,6 +79,7 @@ if uploaded_file:
         def color_positive(val):
             color = 'yellow' if val > 0 else 'white'
             return f'background-color: {color}'
+            
         # Menerapkan fungsi ke seluruh DataFrame
         styled_tabular = tabular.style.applymap(color_positive)
         st.dataframe(styled_tabular)
