@@ -75,6 +75,7 @@ if uploaded_file:
 
         # Menampilkan hasil algoritma apriori dalam bentuk dataframe
         st.dataframe(rules.applymap(lambda x: ','.join(x) if type(x) == frozenset else x))
+        st.dataframe(tabular)
     else:
         st.warning("Tidak ada aturan yang diproses")
 else:
