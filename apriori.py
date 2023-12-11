@@ -42,6 +42,14 @@ if uploaded_file:
     
     #Data dibuat tabulasi
     tabular = pd.crosstab (df[A],df[B])
+    # Fungsi untuk memberi warna kuning pada nilai > 0
+    def color_positive(val):
+            color = 'yellow' if val > 0 else 'white'
+            return f'background-color: {color}'
+            
+    # Menerapkan fungsi ke seluruh DataFrame
+    styled_tabular = tabular.style.applymap(color_positive)
+    st.dataframe(styled_tabular)
     
     # Data dibaca dengan cara encoding
     def hot_encode(x) :
@@ -52,14 +60,6 @@ if uploaded_file:
 
     # Buat data menjadi binominal
     tabular_encode = tabular.applymap(hot_encode)
-    # Fungsi untuk memberi warna kuning pada nilai > 0
-    def color_positive(val):
-            color = 'yellow' if val > 0 else 'white'
-            return f'background-color: {color}'
-            
-    # Menerapkan fungsi ke seluruh DataFrame
-    styled_tabular = tabular.style.applymap(color_positive)
-    st.dataframe(styled_tabular)
 
    # Menampilkan hasil algoritma apriori
     if st.button("PROSES"):
