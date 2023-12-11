@@ -39,6 +39,27 @@ if uploaded_file:
     #minimum_support = minimum_support_percentage / 100
     minimum_confidence = st.number_input("Minimum Confidence: ( % )", max_value=100.00)
     #minimum_confidence = minimum_confidence_percentage / 100
+    
+    #Data dibuat tabulasi
+    tabular = pd.crosstab (df[A],df[B])
+    
+    # Data dibaca dengan cara encoding
+    def hot_encode(x) :
+            if (x<=0):
+                return 0
+            if (x>=1):
+                return 1
+
+    # Buat data menjadi binominal
+    tabular_encode = tabular.applymap(hot_encode)
+    # Fungsi untuk memberi warna kuning pada nilai > 0
+    def color_positive(val):
+            color = 'yellow' if val > 0 else 'white'
+            return f'background-color: {color}'
+            
+    # Menerapkan fungsi ke seluruh DataFrame
+    styled_tabular = tabular.style.applymap(color_positive)
+    st.dataframe(styled_tabular)
 
    # Menampilkan hasil algoritma apriori
     if st.button("PROSES"):
@@ -48,20 +69,6 @@ if uploaded_file:
         #    df = df[(df[C] >= pd.to_datetime(tanggal_mulai)) & (df[C] <= pd.to_datetime(tanggal_akhir))]
         #else:
         #    pass # jangan lakukan apapun jika tidak all dicentang
-            
-
-        #Data dibuat tabulasi
-        tabular = pd.crosstab (df[A],df[B])
-
-        # Data dibaca dengan cara encoding
-        def hot_encode(x) :
-            if (x<=0):
-                return 0
-            if (x>=1):
-                return 1
-
-        # Buat data menjadi binominal
-        tabular_encode = tabular.applymap(hot_encode)
         
         # Bangun model apriori
         frq_items = apriori(tabular_encode, min_support=minimum_support, use_colnames= True)
@@ -75,14 +82,6 @@ if uploaded_file:
 
         # Menampilkan hasil algoritma apriori dalam bentuk dataframe
         st.dataframe(rules.applymap(lambda x: ','.join(x) if type(x) == frozenset else x))
-        # Fungsi untuk memberi warna kuning pada nilai > 0
-        def color_positive(val):
-            color = 'yellow' if val > 0 else 'white'
-            return f'background-color: {color}'
-            
-        # Menerapkan fungsi ke seluruh DataFrame
-        styled_tabular = tabular.style.applymap(color_positive)
-        st.dataframe(styled_tabular)
     else:
         st.warning("Tidak ada aturan yang diproses")
 else:
