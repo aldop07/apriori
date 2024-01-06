@@ -46,12 +46,12 @@ if uploaded_file:
     if st.button("PROSES"):
         st.success('HASIL PERHITUNGAN APRIORI')
         # Fungsi untuk memberi warna kuning pada nilai > 0
-        def color_positive(val):
-                color = 'yellow' if val > 0 else 'white'
-                return f'background-color: {color}'
+        #def color_positive(val):
+        #        color = 'yellow' if val > 0 else 'white'
+        #        return f'background-color: {color}'
                     
         # Menerapkan fungsi ke seluruh DataFrame
-        styled_tabular = tabular.style.applymap(color_positive)
+        #styled_tabular = tabular.style.applymap(color_positive)
         
         # Bangun model apriori
         frq_items = apriori(tabular_encode, min_support=minimum_support, use_colnames= True)
