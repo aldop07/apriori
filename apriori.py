@@ -16,14 +16,6 @@ if uploaded_file:
     index_list = df.columns.tolist()
     A = st.selectbox ('X / Invoice',index_list)
     B = st.selectbox ('Y / Product',index_list)
-    
-        #all = st.checkbox('Pilih Berdasarkan Tanggal')
-        #if all:
-        #    C = st.selectbox('Pilih Kolom Tanggal', index_list)
-        #    df[C] = pd.to_datetime(df[C])  # Mengubah kolom tanggal menjadi tipe datetime
-        #    tanggal_mulai = st.date_input("Tanggal Mulai", value=pd.to_datetime(df[C]).min(), max_value=pd.to_datetime(df[C]).max())
-        #    tanggal_akhir = st.date_input("Tanggal Akhir", value=pd.to_datetime(df[C]).max(), min_value=pd.to_datetime(df[C]).min())
-        
         
     # Menentukan nilai minimum support
     minimum_support = st.number_input("Minimum Support: ( % )", max_value=100.000)
@@ -33,14 +25,14 @@ if uploaded_file:
     tabular = pd.crosstab (df[A],df[B])
 
     # Data dibaca dengan cara encoding
-    def hot_encode(x) :
-            if (x<=0):
-                return 0
-            if (x>=1):
-                return 1
+    #def hot_encode(x) :
+    #        if (x<=0):
+    #            return 0
+    #        if (x>=1):
+    #            return 1
 
     # Buat data menjadi binominal
-    tabular_encode = tabular.applymap(hot_encode)
+    #tabular_encode = tabular.applymap(hot_encode)
 
    # Menampilkan hasil algoritma apriori
     if st.button("PROSES"):
@@ -54,7 +46,7 @@ if uploaded_file:
         #styled_tabular = tabular.style.applymap(color_positive)
         
         # Bangun model apriori
-        frq_items = apriori(tabular_encode, min_support=minimum_support, use_colnames= True)
+        frq_items = apriori(tabular, min_support=minimum_support, use_colnames= True)
 
         # Mengumpulkan aturan dalam dataframe
         rules = association_rules(frq_items, metric="confidence",min_threshold=minimum_confidence)
@@ -65,7 +57,7 @@ if uploaded_file:
 
 
         # Menampilkan frekuensi itemset
-        frq_items[["support"]] = frq_items[["support"]].applymap(lambda x: "{:.0f}%".format(x*100))
+        #frq_items[["support"]] = frq_items[["support"]].applymap(lambda x: "{:.0f}%".format(x*100))
         st.write('Frekuensi Item')
         st.dataframe(frq_items.applymap(lambda x: ', '.join(x) if type(x) == frozenset else x))
         
@@ -75,7 +67,7 @@ if uploaded_file:
         
         # Menampilkan hasil tabulasi data dalam bentuk dataframe
         st.write('Tabulasi Data')
-        st.dataframe(styled_tabular)
+        st.dataframe(tabular)
     else:
         st.warning("Tidak ada aturan yang diproses")
 else:
