@@ -35,9 +35,9 @@ if uploaded_file:
         
         
     # Menentukan nilai minimum support
-    minimum_support = st.number_input("Minimum Support: ( % )", max_value=100.00)
+    minimum_support = st.number_input("Minimum Support: ( % )", max_value=100.0000)
     #minimum_support = minimum_support_percentage / 100
-    minimum_confidence = st.number_input("Minimum Confidence: ( % )", max_value=100.00)
+    minimum_confidence = st.number_input("Minimum Confidence: ( % )", max_value=100.0000)
     #minimum_confidence = minimum_confidence_percentage / 100
     
     #Data dibuat tabulasi
@@ -80,8 +80,17 @@ if uploaded_file:
         # Mengubah nilai support, confidence, dan lift menjadi persentase
         rules[["antecedent support","consequent support","support","confidence"]] = rules[["antecedent support","consequent support","support","confidence"]].applymap(lambda x: "{:.2f}%".format(x*100))
 
+
+        # Menampilkan frekuensi itemset
+        frq_items[["support"]] = frq_items[["support"]].applymap(lambda x: "{:.0f}%".format(x*100))
+        st.write('Frekuensi Item')
+        st.dataframe(frq_items.applymap(lambda x: ', '.join(x) if type(x) == frozenset else x))
+        
         # Menampilkan hasil algoritma apriori dalam bentuk dataframe
+        st.write('Aturan Asosiasi')
         st.dataframe(rules.applymap(lambda x: ','.join(x) if type(x) == frozenset else x))
+        
+        st.write('Tabulasi Data')
         st.dataframe(styled_tabular)
     else:
         st.warning("Tidak ada aturan yang diproses")
