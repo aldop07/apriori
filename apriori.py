@@ -10,18 +10,9 @@ st.set_page_config(page_title="MBA", page_icon=icon)
 st.header('Market Basket Analysis')
 
 # Baca data transaksi dari database
-xlsx = st.checkbox('xlsx')
-csv = st.checkbox('csv')
-uploaded_file = st.file_uploader("Pilih file Excel yang diupload:")
+uploaded_file = st.file_uploader("Pilih file Excel/xlsx yang diupload:")
 if uploaded_file:
-    if xlsx :
-        df = pd.read_excel(uploaded_file)
-    else:
-        pass
-    if csv :
-        df = pd.read_csv(uploaded_file)
-    else:
-        pass
+    df = pd.read_excel(uploaded_file)
     index_list = df.columns.tolist()
     A = st.selectbox ('X / Invoice',index_list)
     B = st.selectbox ('Y / Product',index_list)
@@ -36,21 +27,11 @@ if uploaded_file:
         
     # Menentukan nilai minimum support
     minimum_support = st.number_input("Minimum Support: ( % )", max_value=100.000)
-    #minimum_support = minimum_support_percentage / 100
     minimum_confidence = st.number_input("Minimum Confidence: ( % )", max_value=100.000)
-    #minimum_confidence = minimum_confidence_percentage / 100
     
     #Data dibuat tabulasi
     tabular = pd.crosstab (df[A],df[B])
-    # Fungsi untuk memberi warna kuning pada nilai > 0
-    def color_positive(val):
-            color = 'yellow' if val > 0 else 'white'
-            return f'background-color: {color}'
-            
-    # Menerapkan fungsi ke seluruh DataFrame
-    styled_tabular = tabular.style.applymap(color_positive)
 
-    
     # Data dibaca dengan cara encoding
     def hot_encode(x) :
             if (x<=0):
@@ -64,11 +45,13 @@ if uploaded_file:
    # Menampilkan hasil algoritma apriori
     if st.button("PROSES"):
         st.success('HASIL PERHITUNGAN APRIORI')
-
-        #if all:
-        #    df = df[(df[C] >= pd.to_datetime(tanggal_mulai)) & (df[C] <= pd.to_datetime(tanggal_akhir))]
-        #else:
-        #    pass # jangan lakukan apapun jika tidak all dicentang
+        # Fungsi untuk memberi warna kuning pada nilai > 0
+        def color_positive(val):
+                color = 'yellow' if val > 0 else 'white'
+                return f'background-color: {color}'
+                    
+        # Menerapkan fungsi ke seluruh DataFrame
+        styled_tabular = tabular.style.applymap(color_positive)
         
         # Bangun model apriori
         frq_items = apriori(tabular_encode, min_support=minimum_support, use_colnames= True)
@@ -90,6 +73,7 @@ if uploaded_file:
         st.write('Aturan Asosiasi')
         st.dataframe(rules.applymap(lambda x: ','.join(x) if type(x) == frozenset else x))
         
+        # Menampilkan hasil tabulasi data dalam bentuk dataframe
         st.write('Tabulasi Data')
         st.dataframe(styled_tabular)
     else:
