@@ -24,26 +24,9 @@ if uploaded_file:
     #Data dibuat tabulasi
     tabular = pd.crosstab (df[A],df[B])
 
-    # Data dibaca dengan cara encoding
-    #def hot_encode(x) :
-    #        if (x<=0):
-    #            return 0
-    #        if (x>=1):
-    #            return 1
-
-    # Buat data menjadi binominal
-    #tabular_encode = tabular.applymap(hot_encode)
-
    # Menampilkan hasil algoritma apriori
     if st.button("PROSES"):
         st.success('HASIL PERHITUNGAN APRIORI')
-        # Fungsi untuk memberi warna kuning pada nilai > 0
-        #def color_positive(val):
-        #        color = 'yellow' if val > 0 else 'white'
-        #        return f'background-color: {color}'
-                    
-        # Menerapkan fungsi ke seluruh DataFrame
-        #styled_tabular = tabular.style.applymap(color_positive)
         
         # Bangun model apriori
         frq_items = apriori(tabular, min_support=minimum_support, use_colnames= True)
@@ -53,21 +36,28 @@ if uploaded_file:
         rules = rules.sort_values(['confidence','lift'], ascending=[False, False])
         
         # Mengubah nilai support, confidence, dan lift menjadi persentase
-        rules[["antecedent support","consequent support","support","confidence"]] = rules[["antecedent support","consequent support","support","confidence"]].applymap(lambda x: "{:.2f}%".format(x*100))
-
+        rules[["antecedent support","consequent support","support","confidence"]] = rules[["antecedent support","consequent support","support","confidence"]].applymap(lambda x: "{:.0f}%".format(x*100))
 
         # Menampilkan frekuensi itemset
-        #frq_items[["support"]] = frq_items[["support"]].applymap(lambda x: "{:.0f}%".format(x*100))
         st.write('Frekuensi Item')
+        frq_items[["support"]] = frq_items[["support"]].applymap(lambda x: "{:.0f}%".format(x*100))
         st.dataframe(frq_items.applymap(lambda x: ', '.join(x) if type(x) == frozenset else x))
         
         # Menampilkan hasil algoritma apriori dalam bentuk dataframe
         st.write('Aturan Asosiasi')
         st.dataframe(rules.applymap(lambda x: ','.join(x) if type(x) == frozenset else x))
         
+        # Fungsi untuk memberi warna kuning pada nilai > 0
+        def color_positive(val):
+                color = 'yellow' if val > 0 else 'white'
+                return f'background-color: {color}'
+                    
+        # Menerapkan fungsi ke seluruh DataFrame
+        styled_tabular = tabular.style.applymap(color_positive)
+
         # Menampilkan hasil tabulasi data dalam bentuk dataframe
         st.write('Tabulasi Data')
-        st.dataframe(tabular)
+        st.dataframe(styled_tabular)
     else:
         st.warning("Tidak ada aturan yang diproses")
 else:
