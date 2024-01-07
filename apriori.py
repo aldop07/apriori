@@ -23,8 +23,15 @@ if uploaded_file:
     
     #Data dibuat tabulasi
     tabular = pd.crosstab (df[A],df[B])
-    te = TransactionEncoder()
-    tabular_encode = te.fit(tabular).transform(tabular)
+    
+    # Data dibaca dengan cara encoding
+    def hot_encode(x) :
+            if (x<=0):
+                return 0
+            if (x>=1):
+                return 1
+    # Buat data menjadi binominal
+    tabular_encode = tabular.applymap(hot_encode)
 
     # Fungsi untuk memberi warna kuning pada nilai > 0
     def color_positive(val):
