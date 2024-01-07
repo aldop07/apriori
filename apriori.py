@@ -23,7 +23,9 @@ if uploaded_file:
     
     #Data dibuat tabulasi
     tabular = pd.crosstab(df[A],df[B])
-    
+
+    # Menerapkan fungsi ke seluruh DataFrame
+    styled_tabular = tabular.style.applymap(color_positive)
     # Data dibaca dengan cara encoding
     #def hot_encode(x) :
      #       if (x<=0):
@@ -38,7 +40,7 @@ if uploaded_file:
         color = 'yellow' if val > 0 else 'white'
         return f'background-color: {color}'
 
-   # Menampilkan hasil algoritma apriori
+    # Menampilkan hasil algoritma apriori
     if st.button("PROSES"):
         st.success('HASIL PERHITUNGAN APRIORI')
         
@@ -60,9 +62,6 @@ if uploaded_file:
         # Menampilkan hasil algoritma apriori dalam bentuk dataframe
         st.write('Aturan Asosiasi')
         #st.dataframe(rules.applymap(lambda x: ','.join(x) if type(x) == frozenset else x))
-
-        # Menerapkan fungsi ke seluruh DataFrame
-        styled_tabular = tabular.style.applymap(color_positive)
 
         # Menampilkan hasil tabulasi data dalam bentuk dataframe
         st.write('Tabulasi Data')
