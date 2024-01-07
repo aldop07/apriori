@@ -22,51 +22,52 @@ if uploaded_file:
     minimum_confidence = st.number_input("Minimum Confidence: ( % )", max_value=100.000)
     
     #Data dibuat tabulasi
-    tabular = pd.crosstab(df[A],df[B])
-    # Data dibaca dengan cara encoding
-    #def hot_encode(x) :
-     #       if (x<=0):
-      #          return 0
-       #     if (x>=1):
-        #        return 1
-    # Buat data menjadi binominal
-    #tabular_encode = tabular.applymap(hot_encode)
+    tabular = pd.crosstab (df[A],df[B])
 
     # Fungsi untuk memberi warna kuning pada nilai > 0
     def color_positive(val):
         color = 'yellow' if val > 0 else 'white'
         return f'background-color: {color}'
-        
+    
     # Menerapkan fungsi ke seluruh DataFrame
     styled_tabular = tabular.style.applymap(color_positive)
-    # Menampilkan hasil algoritma apriori
-    
+
+    # Data dibaca dengan cara encoding
+    def hot_encode(x) :
+            if (x<=0):
+                return 0
+            if (x>=1):
+                return 1
+                
+    # Buat data menjadi binominal
+    tabular_encode = tabular.applymap(hot_encode)
+
+   # Menampilkan hasil algoritma apriori
     if st.button("PROSES"):
         st.success('HASIL PERHITUNGAN APRIORI')
         
         # Bangun model apriori
-        #frq_items = apriori(tabular_encode, min_support=minimum_support, use_colnames= True)
+        frq_items = apriori(tabular_encode, min_support=minimum_support, use_colnames= True)
 
         # Mengumpulkan aturan dalam dataframe
-        #rules = association_rules(frq_items, metric="confidence",min_threshold=minimum_confidence)
-        #rules = rules.sort_values(['confidence','lift'], ascending=[False, False])
+        rules = association_rules(frq_items, metric="confidence",min_threshold=minimum_confidence)
+        rules = rules.sort_values(['confidence','lift'], ascending=[False, False])
         
         # Mengubah nilai support, confidence, dan lift menjadi persentase
-        #rules[["antecedent support","consequent support","support","confidence"]] = rules[["antecedent support","consequent support","support","confidence"]].applymap(lambda x: "{:.0f}%".format(x*100))
+        rules[["antecedent support","consequent support","support","confidence"]] = rules[["antecedent support","consequent support","support","confidence"]].applymap(lambda x: "{:.0f}%".format(x*100))
 
         # Menampilkan frekuensi itemset
         st.write('Frekuensi Item')
-        #frq_items[["support"]] = frq_items[["support"]].applymap(lambda x: "{:.0f}%".format(x*100))
-        #st.dataframe(frq_items.applymap(lambda x: ', '.join(x) if type(x) == frozenset else x))
+        frq_items[["support"]] = frq_items[["support"]].applymap(lambda x: "{:.0f}%".format(x*100))
+        st.dataframe(frq_items.applymap(lambda x: ', '.join(x) if type(x) == frozenset else x))
         
         # Menampilkan hasil algoritma apriori dalam bentuk dataframe
         st.write('Aturan Asosiasi')
-        #st.dataframe(rules.applymap(lambda x: ','.join(x) if type(x) == frozenset else x))
+        st.dataframe(rules.applymap(lambda x: ','.join(x) if type(x) == frozenset else x))
 
         # Menampilkan hasil tabulasi data dalam bentuk dataframe
         st.write('Tabulasi Data')
         st.dataframe(styled_tabular)
-        #st.dataframe(tabular_encode)
     else:
         st.warning("Tidak ada aturan yang diproses")
 else:
