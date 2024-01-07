@@ -13,17 +13,17 @@ st.header('Market Basket Analysis')
 # Baca data transaksi dari database
 uploaded_file = st.file_uploader("Pilih file Excel/xlsx yang diupload:")
 if uploaded_file:
-    df = pd.read_excel(uploaded_file)
-    index_list = df.columns.tolist()
-    A = st.selectbox ('X / Invoice',index_list)
-    B = st.selectbox ('Y / Product',index_list)
+    df_original = pd.read_excel(uploaded_file)
+    index_list = df_original.columns.tolist()
+    A = st.selectbox('X / Invoice', index_list)
+    B = st.selectbox('Y / Product', index_list)
         
     # Menentukan nilai minimum support
     minimum_support = st.number_input("Minimum Support: ( % )", max_value=100.000)
     minimum_confidence = st.number_input("Minimum Confidence: ( % )", max_value=100.000)
     
     #Data dibuat tabulasi
-    tabular = pd.crosstab (df[A],df[B])
+    tabular = pd.crosstab (df_original[A],df_original[B])
 
     # Fungsi untuk memberi warna kuning pada nilai > 0
     def color_positive(val):
@@ -34,7 +34,7 @@ if uploaded_file:
     styled_tabular = tabular.style.applymap(color_positive)
 
     # Transform DataFrame to the required format
-    transactions = df.groupby(f'{A}')[f'{B}'].apply(list).reset_index(name='Items')
+    transactions = df_original.groupby(f'{A}')[f'{B}'].apply(list).reset_index(name='Items')
 
     # Convert the 'Items' column to a list of lists
     dataset = transactions['Items'].tolist()
