@@ -32,22 +32,12 @@ if uploaded_file:
     # Menerapkan fungsi ke seluruh DataFrame
     styled_tabular = tabular.style.applymap(color_positive)
 
-    # Data dibaca dengan cara encoding
-    def hot_encode(x) :
-            if (x<=0):
-                return 0
-            if (x>=1):
-                return 1
-                
-    # Buat data menjadi binominal
-    tabular_encode = tabular.applymap(hot_encode)
-
    # Menampilkan hasil algoritma apriori
     if st.button("PROSES"):
         st.success('HASIL PERHITUNGAN APRIORI')
         
         # Bangun model apriori
-        frq_items = apriori(tabular_encode, min_support=minimum_support, use_colnames= True)
+        frq_items = apriori(tabular, min_support=minimum_support, use_colnames= True)
 
         # Mengumpulkan aturan dalam dataframe
         rules = association_rules(frq_items, metric="confidence",min_threshold=minimum_confidence)
