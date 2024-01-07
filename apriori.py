@@ -27,17 +27,24 @@ if uploaded_file:
     # Menampilkan hasil algoritma apriori
     if st.button("PROSES"):
         st.success('HASIL PERHITUNGAN APRIORI')
-        # Menangani nilai yang hilang
+
+        # Membersihkan nilai yang hilang
         df_original.dropna(inplace=True)
 
-        # Menangani duplikat
+        # Membersihkan nilai yang duplikat
         df_original.drop_duplicates(inplace=True)
-        
+        #if A == B or B == A:
         # Transform DataFrame to the required format
-        transactions = df_original.groupby(f'{A}')[f'{B}'].apply(list).reset_index(name='Items')
+        transactions = df_original.groupby(f'{A}')[f'{B}'].apply(lambda x: ', '.join(x)).reset_index(name='Items')
 
         # Convert the 'Items' column to a list of lists
-        dataset = transactions['Items'].tolist()
+        dataset = transactions['Items'].apply(lambda x: [item.strip() for item in x.split(', ')]).tolist()
+        #else:
+        # Transform DataFrame to the required format
+        #transactions = df_original.groupby(f'{A}')[f'{B}'].apply(list).reset_index(name='Items')
+
+        # Convert the 'Items' column to a list of lists
+        #dataset = transactions['Items'].tolist()
 
         # Gunakan mlxtend untuk mencari frequent itemsets
         te = TransactionEncoder()
