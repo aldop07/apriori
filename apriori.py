@@ -27,7 +27,7 @@ if uploaded_file:
 
     te = TransactionEncoder()
     te_ary = te.fit(tabular).transform(tabular)
-    tabular_encode = pd.DataFrame(te_ary, columns=te.columns_)
+    tabular_encode = pd.DataFrame(te_ary)
 
     # Fungsi untuk memberi warna kuning pada nilai > 0
     def color_positive(val):
