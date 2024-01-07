@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from mlxtend.frequent_patterns import fpgrowth, association_rules
+from mlxtend.frequent_patterns import apriori, association_rules
 
 #IRFAN NOVALDO HUANG
 icon = 'https://th.bing.com/th/id/R.a406cbfb23b4d4937c5c3e323a7cb567?rik=4qO3lF%2ftE0LZTg&riu=http%3a%2f%2f1.bp.blogspot.com%2f-I-do3iLl5rs%2fUsuaG8IcjhI%2fAAAAAAAAAIE%2fXmXj-zTkS9U%2fs1600%2fUnsera.png&ehk=7Q%2f63voOpFTnTFwucAoLvddSl03O7NITAf9NPD3Ge7M%3d&risl=&pid=ImgRaw&r=0'
@@ -47,7 +47,7 @@ if uploaded_file:
         st.success('HASIL PERHITUNGAN APRIORI')
         
         # Bangun model apriori
-        frq_items = fpgrowth(tabular_encode, min_support=minimum_support, use_colnames= True)
+        frq_items = apriori(tabular_encode, min_support=minimum_support, use_colnames= True)
 
         # Mengumpulkan aturan dalam dataframe
         rules = association_rules(frq_items, metric="confidence",min_threshold=minimum_confidence)
