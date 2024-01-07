@@ -55,11 +55,11 @@ if uploaded_file:
         rules = rules.sort_values(['confidence','lift'], ascending=[False, False])
         
         # Mengubah nilai support, confidence, dan lift menjadi persentase
-        rules[["antecedent support","consequent support","support","confidence"]] = rules[["antecedent support","consequent support","support","confidence"]].applymap(lambda x: "{:.0f}%".format(x*100))
+        #rules[["antecedent support","consequent support","support","confidence"]] = rules[["antecedent support","consequent support","support","confidence"]].applymap(lambda x: "{:.0f}%".format(x*100))
 
         # Menampilkan frekuensi itemset
         st.write('Frekuensi Item')
-        frq_items[["support"]] = frq_items[["support"]].applymap(lambda x: "{:.0f}%".format(x*100))
+        #frq_items[["support"]] = frq_items[["support"]].applymap(lambda x: "{:.0f}%".format(x*100))
         st.dataframe(frq_items.applymap(lambda x: ', '.join(x) if type(x) == frozenset else x))
         
         # Menampilkan hasil algoritma apriori dalam bentuk dataframe
