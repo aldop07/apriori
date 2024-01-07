@@ -47,29 +47,29 @@ if uploaded_file:
         st.success('HASIL PERHITUNGAN APRIORI')
         
         # Bangun model apriori
-        frq_items = apriori(tabular_encode, min_support=minimum_support, use_colnames= True)
+        #frq_items = apriori(tabular_encode, min_support=minimum_support, use_colnames= True)
 
         # Mengumpulkan aturan dalam dataframe
-        rules = association_rules(frq_items, metric="confidence",min_threshold=minimum_confidence)
+        #rules = association_rules(frq_items, metric="confidence",min_threshold=minimum_confidence)
 
         # Menampilkan data nilai terbesar berada diatas
-        rules = rules.sort_values(['confidence','support'], ascending=[False, False])
+        #rules = rules.sort_values(['confidence','support'], ascending=[False, False])
 
         # Drop lift leverage dan conviction
-        rules = rules.drop(['zhangs_metric','lift', 'leverage', 'conviction'], axis=1)
+        #rules = rules.drop(['zhangs_metric','lift', 'leverage', 'conviction'], axis=1)
         
         # Mengubah nilai support, confidence, dan lift menjadi persentase
-        rules[["antecedent support","consequent support","support","confidence"]] = rules[["antecedent support","consequent support","support","confidence"]].applymap(lambda x: "{:.0f}%".format(x*100))
+        #rules[["antecedent support","consequent support","support","confidence"]] = rules[["antecedent support","consequent support","support","confidence"]].applymap(lambda x: "{:.0f}%".format(x*100))
 
         # Menampilkan frekuensi itemset
-        st.write('Frekuensi Item')
-        frq_items = frq_items.sort_values(['support',], ascending=[False])
-        frq_items[["support"]] = frq_items[["support"]].applymap(lambda x: "{:.0f}%".format(x*100))
-        st.dataframe(frq_items.applymap(lambda x: ', '.join(x) if type(x) == frozenset else x))
+        #st.write('Frekuensi Item')
+        #frq_items = frq_items.sort_values(['support',], ascending=[False])
+        #frq_items[["support"]] = frq_items[["support"]].applymap(lambda x: "{:.0f}%".format(x*100))
+        #st.dataframe(frq_items.applymap(lambda x: ', '.join(x) if type(x) == frozenset else x))
         
         # Menampilkan hasil algoritma apriori dalam bentuk dataframe
-        st.write('Aturan Asosiasi')
-        st.dataframe(rules.applymap(lambda x: ', '.join(x) if type(x) == frozenset else x))
+        #st.write('Aturan Asosiasi')
+        #st.dataframe(rules.applymap(lambda x: ', '.join(x) if type(x) == frozenset else x))
 
         # Menerapkan fungsi ke seluruh DataFrame
         styled_tabular_encode = tabular_encode.style.applymap(color_positive)
