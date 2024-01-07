@@ -51,7 +51,6 @@ if uploaded_file:
         # Menampilkan hasil algoritma apriori dalam bentuk dataframe
         st.write('Aturan Asosiasi')
         st.dataframe(rules.applymap(lambda x: ','.join(x) if type(x) == frozenset else x))
-        
 
                     
         # Menerapkan fungsi ke seluruh DataFrame
