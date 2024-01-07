@@ -41,14 +41,14 @@ if uploaded_file:
                 
     # Buat data menjadi binominal
     tabular_encode = tabular.applymap(hot_encode)
-    tabulasi = tabular_encode
+    tabular_encode = pd.DataFrame(tabular_encode)
 
    # Menampilkan hasil algoritma apriori
     if st.button("PROSES"):
         st.success('HASIL PERHITUNGAN APRIORI')
         
         # Bangun model apriori
-        frq_items = apriori(tabulasi, min_support=minimum_support, use_colnames= True)
+        frq_items = apriori(tabular_encode, min_support=minimum_support, use_colnames= True)
 
         # Mengumpulkan aturan dalam dataframe
         rules = association_rules(frq_items, metric="confidence",min_threshold=minimum_confidence)
