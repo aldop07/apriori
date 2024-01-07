@@ -65,9 +65,13 @@ if uploaded_file:
         # Mengubah nilai support, confidence, dan lift menjadi persentase
         rules[["antecedent support","consequent support","support","confidence"]] = rules[["antecedent support","consequent support","support","confidence"]].applymap(lambda x: "{:.0f}%".format(x*100))
 
+        # Normalisasi urutan antecedents dan consequents sebelum menghapus duplikat
+        rules['antecedents'] = rules['antecedents'].apply(lambda x: frozenset(sorted(x)))
+        rules['consequents'] = rules['consequents'].apply(lambda x: frozenset(sorted(x)))
+        
         # Menghapus aturan yang merupakan duplikat berdasarkan antecedents dan consequents
         rules = rules.drop_duplicates(subset=["antecedents", "consequents"])
-        
+
         # Menampilkan frekuensi itemset
         st.write('Frekuensi Item')
         frq_items = frq_items.sort_values(['support',], ascending=[False])
