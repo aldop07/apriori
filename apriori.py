@@ -23,6 +23,7 @@ if uploaded_file:
     
     #Data dibuat tabulasi
     tabular = pd.crosstab (df[A],df[B])
+    tabular = TransactionEncoder()
 
     # Fungsi untuk memberi warna kuning pada nilai > 0
     def color_positive(val):
