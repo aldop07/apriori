@@ -63,7 +63,7 @@ if uploaded_file:
         # Menampilkan hasil algoritma apriori dalam bentuk dataframe
         st.write(f'Ditemukan {len(rules)} Aturan Asosiasi')
         st.dataframe(rules.applymap(lambda x: ', '.join(x) if type(x) == frozenset else x))
-
+        st.dataframe(df_transformed)
     else:
         st.warning("Tidak ada aturan yang diproses")
 else:
