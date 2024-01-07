@@ -51,7 +51,7 @@ if uploaded_file:
 
         # Mengumpulkan aturan dalam dataframe
         rules = association_rules(frq_items, metric="confidence",min_threshold=minimum_confidence)
-        rules = rules.sort_values(['confidence','lift'], ascending=[False, False])
+        rules = rules.sort_values(['confidence','support'], ascending=[False, False])
 
         # Drop lift leverage dan conviction
         rules = rules.drop(['lift', 'leverage', 'conviction'], axis=1)
