@@ -53,8 +53,7 @@ if uploaded_file:
         # Mengumpulkan aturan dalam dataframe
         rules = association_rules(frq_items, metric="confidence",min_threshold=minimum_confidence)
         rules = rules.sort_values(['confidence','support'], ascending=[False, False])
-        rules["antecedent_len"] = rules["antecedents"].apply(lambda x: len(x))
-        rules[ (rules['antecedent_len'] >= antecedents) ]
+
         # Drop lift leverage dan conviction
         rules = rules.drop(['zhangs_metric','lift', 'leverage', 'conviction'], axis=1)
         
