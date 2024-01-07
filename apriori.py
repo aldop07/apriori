@@ -45,16 +45,14 @@ if uploaded_file:
         # Mengumpulkan aturan dalam dataframe
         rules = association_rules(frq_items, metric="confidence", min_threshold=minimum_confidence)
 
-        # Menampilkan data nilai terbesar berada di atas
-        rules = rules.sort_values(['confidence', 'support'], ascending=[False, False])
-
         # Drop lift leverage dan conviction
         rules = rules.drop(['zhangs_metric', 'lift', 'leverage', 'conviction'], axis=1)
 
         # Mengubah nilai support, confidence, dan lift menjadi persentase
-        rules[["antecedent support", "consequent support", "support", "confidence"]] = rules[
-            ["antecedent support", "consequent support", "support", "confidence"]].applymap(
-            lambda x: "{:.0f}%".format(x * 100))
+        rules[["antecedent support", "consequent support", "support", "confidence"]] = rules[["antecedent support", "consequent support", "support", "confidence"]].applymap(lambda x: "{:.0f}%".format(x * 100))
+        
+        # Menampilkan data nilai terbesar berada di atas
+        rules = rules.sort_values(['confidence', 'support'], ascending=[False, False])
 
         # Menampilkan frekuensi itemset
         st.write('Frekuensi Item')
