@@ -52,6 +52,11 @@ if uploaded_file:
 
         # Mengumpulkan aturan dalam dataframe
         rules = association_rules(frq_items, metric="confidence",min_threshold=minimum_confidence)
+
+        # Filter aturan berdasarkan jumlah antecedents
+        rules = rules[rules['antecedents'].apply(lambda x: len(x)) == antecedents]
+
+        # Menampilkan data nilai terbesar berada diatas
         rules = rules.sort_values(['confidence','support'], ascending=[False, False])
 
         # Drop lift leverage dan conviction
