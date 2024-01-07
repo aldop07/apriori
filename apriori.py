@@ -32,23 +32,16 @@ if uploaded_file:
 
         # Menangani duplikat
         df_original.drop_duplicates(inplace=True)
-
-        # Parse kolom "Produk" untuk mendapatkan daftar produk untuk setiap transaksi
-        df_original[f'{A}'] = df_original[f'{A}'].apply(lambda x: [item.strip() for item in x.split(',')])
-
-        # Transform DataFrame ke format yang diperlukan
-        #transactions = df_original.groupby(f'{A}')[f'{A}'].apply(list).reset_index(name='Items')
-
         
         # Transform DataFrame to the required format
-        #transactions = df_original.groupby(f'{A}')[f'{B}'].apply(list).reset_index(name='Items')
+        transactions = df_original.groupby(f'{A}')[f'{B}'].apply(list).reset_index(name='Items')
 
         # Convert the 'Items' column to a list of lists
-        #dataset = df_original['Items'].tolist()
+        dataset = transactions['Items'].tolist()
 
         # Gunakan mlxtend untuk mencari frequent itemsets
         te = TransactionEncoder()
-        te_ary = te.fit(df_original).transform(df_original)
+        te_ary = te.fit(dataset).transform(dataset)
         df_transformed = pd.DataFrame(te_ary, columns=te.columns_)
 
         # Bangun model apriori
@@ -75,7 +68,7 @@ if uploaded_file:
         # Menampilkan hasil algoritma apriori dalam bentuk dataframe
         st.write(f'Ditemukan {len(rules)} Aturan Asosiasi')
         st.dataframe(rules.applymap(lambda x: ', '.join(x) if type(x) == frozenset else x))
-        st.write(f'{df_original}')
+        st.write(f'{transactions}')
     else:
         st.warning("Tidak ada aturan yang diproses")
 else:
