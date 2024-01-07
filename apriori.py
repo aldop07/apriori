@@ -33,18 +33,19 @@ if uploaded_file:
 
         # Membersihkan nilai yang duplikat
         df_original.drop_duplicates(inplace=True)
-        #if A == B or B == A:
-        # Transform DataFrame to the required format
-        transactions = df_original.groupby(f'{A}')[f'{B}'].apply(lambda x: ', '.join(x)).reset_index(name='Items')
+        
+        if A == B or B == A:
+            # Transform DataFrame to the required format
+            transactions = df_original.groupby(f'{A}')[f'{B}'].apply(lambda x: ', '.join(x)).reset_index(name='Items')
 
-        # Convert the 'Items' column to a list of lists
-        dataset = transactions['Items'].apply(lambda x: [item.strip() for item in x.split(', ')]).tolist()
-        #else:
-        # Transform DataFrame to the required format
-        #transactions = df_original.groupby(f'{A}')[f'{B}'].apply(list).reset_index(name='Items')
+            # Convert the 'Items' column to a list of lists
+            dataset = transactions['Items'].apply(lambda x: [item.strip() for item in x.split(', ')]).tolist()
+        else:
+            # Transform DataFrame to the required format
+            transactions = df_original.groupby(f'{A}')[f'{B}'].apply(list).reset_index(name='Items')
 
-        # Convert the 'Items' column to a list of lists
-        #dataset = transactions['Items'].tolist()
+            # Convert the 'Items' column to a list of lists
+            dataset = transactions['Items'].tolist()
 
         # Gunakan mlxtend untuk mencari frequent itemsets
         te = TransactionEncoder()
@@ -75,7 +76,7 @@ if uploaded_file:
         # Menampilkan hasil algoritma apriori dalam bentuk dataframe
         st.write(f'Ditemukan {len(rules)} Aturan Asosiasi')
         st.dataframe(rules.applymap(lambda x: ', '.join(x) if type(x) == frozenset else x))
-        st.write(f'{dataset}')
+        st.write(f'{transactions}')
     else:
         st.warning("Tidak ada aturan yang diproses")
 else:
