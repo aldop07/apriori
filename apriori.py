@@ -50,7 +50,7 @@ if uploaded_file:
         frq_items = apriori(tabular_encode, min_support=minimum_support, use_colnames= True)
 
         # Mengumpulkan aturan dalam dataframe
-        rules = association_rules(frq_items, metric="confidence",min_threshold=minimum_confidence)
+        rules = association_rules(tabular_encode, metric="confidence",min_threshold=minimum_confidence)
         rules = rules.sort_values(['confidence','support'], ascending=[False, False])
 
         # Drop lift leverage dan conviction
