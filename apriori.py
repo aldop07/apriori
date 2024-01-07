@@ -20,7 +20,7 @@ if uploaded_file:
     # Menentukan nilai minimum support
     minimum_support = st.number_input("Minimum Support: ( % )", max_value=100.000)
     minimum_confidence = st.number_input("Minimum Confidence: ( % )", max_value=100.000)
-    antecedents = st.number_input('Jumlah Antecedents: 'max_value=10)
+    antecedents = st.number_input('Jumlah Antecedents:',max_value=10)
     
     #Data dibuat tabulasi
     tabular = pd.crosstab (df[A],df[B])
