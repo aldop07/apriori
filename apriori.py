@@ -73,9 +73,9 @@ if uploaded_file:
         styled_tabular_encode = tabular_encode.style.applymap(color_positive)
 
         # Menampilkan hasil tabulasi data dalam bentuk dataframe
-        st.write('Tabulasi Data Sebelum Preprocessing')
+        st.write('Tabulasi Data Sebelum Encode')
         st.dataframe(styled_tabular)
-        st.write('Tabulasi Data Setelah Preprocessing')
+        st.write('Tabulasi Data Setelah Encode')
         st.dataframe(styled_tabular_encode)
 
     else:
