@@ -20,7 +20,6 @@ if uploaded_file:
     # Menentukan nilai minimum support
     minimum_support = st.number_input("Minimum Support: ( % )", max_value=100.000)
     minimum_confidence = st.number_input("Minimum Confidence: ( % )", max_value=100.000)
-    antecedents = st.number_input('Jumlah Antecedents:',max_value=10)
     
     #Data dibuat tabulasi
     tabular = pd.crosstab (df[A],df[B])
@@ -53,9 +52,6 @@ if uploaded_file:
         # Mengumpulkan aturan dalam dataframe
         rules = association_rules(frq_items, metric="confidence",min_threshold=minimum_confidence)
 
-        # Filter aturan berdasarkan jumlah antecedents
-        rules = rules[rules['antecedents'].apply(lambda x: len(x)) == antecedents]
-
         # Menampilkan data nilai terbesar berada diatas
         rules = rules.sort_values(['confidence','support'], ascending=[False, False])
 
@@ -65,20 +61,6 @@ if uploaded_file:
         # Mengubah nilai support, confidence, dan lift menjadi persentase
         rules[["antecedent support","consequent support","support","confidence"]] = rules[["antecedent support","consequent support","support","confidence"]].applymap(lambda x: "{:.0f}%".format(x*100))
 
-        # Menggunakan frozenset sebagai kunci untuk menghindari pengaruh urutan
-        rules['antecedents'] = rules['antecedents'].apply(frozenset)
-        rules['consequents'] = rules['consequents'].apply(frozenset)
-
-        # Menggunakan set untuk menyimpan aturan yang sudah ada
-        unique_rules = set()
-
-        # Menyimpan aturan yang unik
-        for index, row in rules.iterrows():
-            unique_rules.add((row['antecedents'], row['consequents']))
-
-        # Membuat DataFrame dari aturan yang unik
-        unique_rules_df = pd.DataFrame(list(unique_rules), columns=['antecedents', 'consequents'])
-
         # Menampilkan frekuensi itemset
         st.write('Frekuensi Item')
         frq_items = frq_items.sort_values(['support',], ascending=[False])
@@ -87,7 +69,7 @@ if uploaded_file:
         
         # Menampilkan hasil algoritma apriori dalam bentuk dataframe
         st.write('Aturan Asosiasi')
-        st.dataframe(unique_rules_df.applymap(lambda x: ', '.join(x) if type(x) == frozenset else x))
+        st.dataframe(rules.applymap(lambda x: ', '.join(x) if type(x) == frozenset else x))
 
         # Menerapkan fungsi ke seluruh DataFrame
         styled_tabular_encode = tabular_encode.style.applymap(color_positive)
