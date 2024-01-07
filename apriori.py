@@ -66,9 +66,10 @@ if uploaded_file:
         st.dataframe(rules.applymap(lambda x: ','.join(x) if type(x) == frozenset else x))
 
         # Menampilkan hasil tabulasi data dalam bentuk dataframe
-        st.write('Tabulasi Data')
-        st.dataframe(styled_tabular)
+        st.write('Tabulasi Data Sebelum Preprocessing')
         st.dataframe(tabular_encode)
+        st.write('Tabulasi Data Setelah Preprocessing')
+        st.dataframe(styled_tabular)
 
     else:
         st.warning("Tidak ada aturan yang diproses")
