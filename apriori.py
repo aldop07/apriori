@@ -24,19 +24,9 @@ if uploaded_file:
     minimum_confidence = st.number_input("Minimum Confidence: ( % )", max_value=100.000)
     minimum_confidence = minimum_confidence / 100
     
-    #Data dibuat tabulasi
-    tabular = pd.crosstab (df[A],df[B])
-
-    # Fungsi untuk memberi warna kuning pada nilai > 0
-    def color_positive(val):
-        color = 'red' if val > 1 else 'yellow' if val == 1 else 'white'
-        return f'background-color: {color}'
-    
-    # Menerapkan fungsi ke seluruh DataFrame
-    styled_tabular = tabular.style.applymap(color_positive)
 
     # Transform DataFrame to the required format
-    transactions = df.groupby(A)[B].apply(list).reset_index(name='Items')
+    transactions = df.groupby(f'{A}')[f'{B}'].apply(list).reset_index(name='Items')
 
     # Convert the 'Items' column to a list of lists
     dataset = transactions['Items'].tolist()
@@ -74,10 +64,6 @@ if uploaded_file:
         # Menampilkan hasil algoritma apriori dalam bentuk dataframe
         st.write('Aturan Asosiasi')
         st.dataframe(rules.applymap(lambda x: ', '.join(x) if type(x) == frozenset else x))
-
-        # Menampilkan hasil tabulasi data dalam bentuk dataframe
-        st.write('Tabulasi')
-        st.dataframe(styled_tabular)
 
     else:
         st.warning("Tidak ada aturan yang diproses")
