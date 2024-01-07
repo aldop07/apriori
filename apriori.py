@@ -17,6 +17,12 @@ if uploaded_file:
     index_list = df_original.columns.tolist()
     A = st.selectbox('X / Invoice', index_list)
     B = st.selectbox('Y / Product', index_list)
+   
+    # Menangani nilai yang hilang
+    df_original.dropna(inplace=True)
+
+    # Menangani duplikat
+    df_original.drop_duplicates(inplace=True)
 
     # Menentukan nilai minimum support
     minimum_support = st.number_input("Minimum Support: ( % )", 0, max_value=100)
