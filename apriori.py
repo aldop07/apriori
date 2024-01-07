@@ -36,7 +36,7 @@ if uploaded_file:
 
         if A == B or B == A:
             # Transform DataFrame to the required format
-            transactions = df_original.groupby(f'{A}')[f'{B}'].apply(lambda x: ', '.join(x)).reset_index(name='Items')
+            transactions = df_original.groupby(f'{A}')[f'{A}'].apply(lambda x: ', '.join(x)).reset_index(name='Items')
 
             # Convert the 'Items' column to a list of lists
             dataset = transactions['Items'].apply(lambda x: [item.strip() for item in x.split(', ')]).tolist()
