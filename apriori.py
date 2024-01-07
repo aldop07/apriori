@@ -37,14 +37,14 @@ if uploaded_file:
         df_original[f'{A}'] = df_original[f'{A}'].apply(lambda x: [item.strip() for item in x.split(',')])
 
         # Transform DataFrame ke format yang diperlukan
-        transactions = df_original.groupby(f'{A}')[f'{A}'].apply(list).reset_index(name='Items')
+        #transactions = df_original.groupby(f'{A}')[f'{A}'].apply(list).reset_index(name='Items')
 
         
         # Transform DataFrame to the required format
         #transactions = df_original.groupby(f'{A}')[f'{B}'].apply(list).reset_index(name='Items')
 
         # Convert the 'Items' column to a list of lists
-        dataset = transactions['Items'].tolist()
+        dataset = df_original['Items'].tolist()
 
         # Gunakan mlxtend untuk mencari frequent itemsets
         te = TransactionEncoder()
@@ -75,7 +75,7 @@ if uploaded_file:
         # Menampilkan hasil algoritma apriori dalam bentuk dataframe
         st.write(f'Ditemukan {len(rules)} Aturan Asosiasi')
         st.dataframe(rules.applymap(lambda x: ', '.join(x) if type(x) == frozenset else x))
-        st.write(f'{dataset}')
+        st.write(f'{df_original}')
     else:
         st.warning("Tidak ada aturan yang diproses")
 else:
