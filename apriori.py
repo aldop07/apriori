@@ -35,11 +35,11 @@ if uploaded_file:
 
         # Buat kondisi jika A = B dan B = A
         if A == B or B == A:
-            # Parse kolom "Produk" untuk mendapatkan daftar produk untuk setiap transaksi
+            # Parse kolom "A/B" untuk mendapatkan daftar produk untuk setiap transaksi
             df_original[f'{A}'] = df_original[f'{A}'].apply(lambda x: [item.strip() for item in x.split(',')])
 
             # Transform DataFrame ke format yang diperlukan
-            transactions = df_original.groupby(f'{A}')[f'{A}'].apply(list).reset_index(name='Items')
+            transactions = df_original.groupby(f'{A}').apply(list).reset_index(name='Items')
         else:
             # Transform DataFrame to the required format
             transactions = df_original.groupby(f'{A}')[f'{B}'].apply(list).reset_index(name='Items')
