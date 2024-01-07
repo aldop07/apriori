@@ -87,7 +87,7 @@ if uploaded_file:
         
         # Menampilkan hasil algoritma apriori dalam bentuk dataframe
         st.write('Aturan Asosiasi')
-        st.dataframe(rules.applymap(lambda x: ', '.join(x) if type(x) == frozenset else x))
+        st.dataframe(unique_rules_df.applymap(lambda x: ', '.join(x) if type(x) == frozenset else x))
 
         # Menerapkan fungsi ke seluruh DataFrame
         styled_tabular_encode = tabular_encode.style.applymap(color_positive)
