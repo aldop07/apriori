@@ -20,6 +20,7 @@ if uploaded_file:
     # Menentukan nilai minimum support
     minimum_support = st.number_input("Minimum Support: ( % )", max_value=100.000)
     minimum_confidence = st.number_input("Minimum Confidence: ( % )", max_value=100.000)
+    antecedents = st.number_input('Jumlah Antecedents: 'max_value=10)
     
     #Data dibuat tabulasi
     tabular = pd.crosstab (df[A],df[B])
@@ -52,7 +53,8 @@ if uploaded_file:
         # Mengumpulkan aturan dalam dataframe
         rules = association_rules(frq_items, metric="confidence",min_threshold=minimum_confidence)
         rules = rules.sort_values(['confidence','support'], ascending=[False, False])
-
+        rules["antecedent_len"] = rules["antecedents"].apply(lambda x: len(x))
+        rules[ (rules['antecedent_len'] >= antecedents) ]
         # Drop lift leverage dan conviction
         rules = rules.drop(['zhangs_metric','lift', 'leverage', 'conviction'], axis=1)
         
