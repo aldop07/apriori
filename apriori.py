@@ -65,11 +65,14 @@ if uploaded_file:
         st.write('Aturan Asosiasi')
         st.dataframe(rules.applymap(lambda x: ','.join(x) if type(x) == frozenset else x))
 
+        # Menerapkan fungsi ke seluruh DataFrame
+        styled_tabular_encode = tabular_encode.style.applymap(color_positive)
+
         # Menampilkan hasil tabulasi data dalam bentuk dataframe
         st.write('Tabulasi Data Sebelum Preprocessing')
         st.dataframe(styled_tabular)
         st.write('Tabulasi Data Setelah Preprocessing')
-        st.dataframe(tabular_encode)
+        st.dataframe(styled_tabular_encode)
 
     else:
         st.warning("Tidak ada aturan yang diproses")
