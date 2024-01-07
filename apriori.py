@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 from mlxtend.frequent_patterns import apriori, association_rules
+from mlxtend.preprocessing import TransactionEncoder
 
 #IRFAN NOVALDO HUANG
 icon = 'https://th.bing.com/th/id/R.a406cbfb23b4d4937c5c3e323a7cb567?rik=4qO3lF%2ftE0LZTg&riu=http%3a%2f%2f1.bp.blogspot.com%2f-I-do3iLl5rs%2fUsuaG8IcjhI%2fAAAAAAAAAIE%2fXmXj-zTkS9U%2fs1600%2fUnsera.png&ehk=7Q%2f63voOpFTnTFwucAoLvddSl03O7NITAf9NPD3Ge7M%3d&risl=&pid=ImgRaw&r=0'
@@ -23,6 +24,10 @@ if uploaded_file:
     
     #Data dibuat tabulasi
     tabular = pd.crosstab (df[A],df[B])
+
+    te = TransactionEncoder()
+    te_ary = te.fit(tabular).transform(tabular)
+    tabular_encode = pd.DataFrame(te_ary, columns=te.columns_)
 
     # Fungsi untuk memberi warna kuning pada nilai > 0
     def color_positive(val):
