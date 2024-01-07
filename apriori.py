@@ -26,8 +26,7 @@ if uploaded_file:
 
     # Fungsi untuk memberi warna kuning pada nilai > 0
     def color_positive(val):
-        color = 'yellow' if val > 0 else 'white'
-        color = 'red' if val > 1 else 'white'
+        color = 'yellow' if val > 0 else ''
         return f'background-color: {color}'
     
     # Menerapkan fungsi ke seluruh DataFrame
