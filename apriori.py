@@ -68,6 +68,7 @@ if uploaded_file:
         # Menampilkan hasil tabulasi data dalam bentuk dataframe
         st.write('Tabulasi Data')
         st.dataframe(styled_tabular)
+        st.dataframe(tabular_encode)
 
     else:
         st.warning("Tidak ada aturan yang diproses")
