@@ -54,7 +54,7 @@ if uploaded_file:
         rules = rules.sort_values(['confidence','support'], ascending=[False, False])
 
         # Drop lift leverage dan conviction
-        rules = rules.drop(['lift', 'leverage', 'conviction'], axis=1)
+        rules = rules.drop(['zhangs_metric','lift', 'leverage', 'conviction'], axis=1)
         
         # Mengubah nilai support, confidence, dan lift menjadi persentase
         rules[["antecedent support","consequent support","support","confidence"]] = rules[["antecedent support","consequent support","support","confidence"]].applymap(lambda x: "{:.0f}%".format(x*100))
