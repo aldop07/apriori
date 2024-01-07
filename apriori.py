@@ -23,7 +23,8 @@ if uploaded_file:
     
     #Data dibuat tabulasi
     tabular = pd.crosstab (df[A],df[B])
-    tabular = TransactionEncoder()
+    te = TransactionEncoder()
+    tabular_encode = te.fit(tabular).transform(tabular)
 
     # Fungsi untuk memberi warna kuning pada nilai > 0
     def color_positive(val):
@@ -35,7 +36,7 @@ if uploaded_file:
         st.success('HASIL PERHITUNGAN APRIORI')
         
         # Bangun model apriori
-        frq_items = apriori(tabular, min_support=minimum_support, use_colnames= True)
+        frq_items = apriori(tabular_encode, min_support=minimum_support, use_colnames= True)
 
         # Mengumpulkan aturan dalam dataframe
         rules = association_rules(frq_items, metric="confidence",min_threshold=minimum_confidence)
