@@ -44,11 +44,11 @@ if uploaded_file:
         #transactions = df_original.groupby(f'{A}')[f'{B}'].apply(list).reset_index(name='Items')
 
         # Convert the 'Items' column to a list of lists
-        dataset = df_original['Items'].tolist()
+        #dataset = df_original['Items'].tolist()
 
         # Gunakan mlxtend untuk mencari frequent itemsets
         te = TransactionEncoder()
-        te_ary = te.fit(dataset).transform(dataset)
+        te_ary = te.fit(df_original).transform(df_original)
         df_transformed = pd.DataFrame(te_ary, columns=te.columns_)
 
         # Bangun model apriori
