@@ -23,6 +23,11 @@ if uploaded_file:
     
     #Data dibuat tabulasi
     tabular = pd.crosstab (df[A],df[B])
+    
+    # Fungsi untuk memberi warna kuning pada nilai > 0
+    def color_positive(val):
+        color = 'yellow' if val > 0 else 'white'
+        return f'background-color: {color}'
 
    # Menampilkan hasil algoritma apriori
     if st.button("PROSES"):
@@ -46,11 +51,6 @@ if uploaded_file:
         # Menampilkan hasil algoritma apriori dalam bentuk dataframe
         st.write('Aturan Asosiasi')
         st.dataframe(rules.applymap(lambda x: ','.join(x) if type(x) == frozenset else x))
-        
-        # Fungsi untuk memberi warna kuning pada nilai > 0
-        def color_positive(val):
-                color = 'yellow' if val > 0 else 'white'
-                return f'background-color: {color}'
                     
         # Menerapkan fungsi ke seluruh DataFrame
         styled_tabular = tabular.style.applymap(color_positive)
