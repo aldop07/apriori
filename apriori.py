@@ -52,7 +52,6 @@ if uploaded_file:
         st.write('Aturan Asosiasi')
         st.dataframe(rules.applymap(lambda x: ','.join(x) if type(x) == frozenset else x))
 
-                    
         # Menerapkan fungsi ke seluruh DataFrame
         styled_tabular = tabular.style.applymap(color_positive)
 
