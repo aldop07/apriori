@@ -17,11 +17,11 @@ if uploaded_file:
     index_list = df_original.columns.tolist()
     A = st.selectbox('X / Invoice', index_list)
     B = st.selectbox('Y / Product', index_list)
-        
+
     # Menentukan nilai minimum support
     minimum_support = st.number_input("Minimum Support: ( % )", max_value=100.000)
     minimum_confidence = st.number_input("Minimum Confidence: ( % )", max_value=100.000)
-    
+
     #Data dibuat tabulasi
     tabular = pd.crosstab (df_original[A],df_original[B])
 
@@ -44,31 +44,33 @@ if uploaded_file:
     te_ary = te.fit(dataset).transform(dataset)
     df_transformed = pd.DataFrame(te_ary, columns=te.columns_)
 
-   # Menampilkan hasil algoritma apriori
+    # Menampilkan hasil algoritma apriori
     if st.button("PROSES"):
         st.success('HASIL PERHITUNGAN APRIORI')
-        
+
         # Bangun model apriori
-        frq_items = apriori(dataset, min_support=minimum_support, use_colnames= True)
+        frq_items = apriori(df_transformed, min_support=minimum_support, use_colnames=True)
 
         # Mengumpulkan aturan dalam dataframe
-        rules = association_rules(frq_items, metric="confidence",min_threshold=minimum_confidence)
+        rules = association_rules(frq_items, metric="confidence", min_threshold=minimum_confidence)
 
-        # Menampilkan data nilai terbesar berada diatas
-        rules = rules.sort_values(['confidence','support'], ascending=[False, False])
+        # Menampilkan data nilai terbesar berada di atas
+        rules = rules.sort_values(['confidence', 'support'], ascending=[False, False])
 
         # Drop lift leverage dan conviction
-        rules = rules.drop(['zhangs_metric','lift', 'leverage', 'conviction'], axis=1)
-        
+        rules = rules.drop(['zhangs_metric', 'lift', 'leverage', 'conviction'], axis=1)
+
         # Mengubah nilai support, confidence, dan lift menjadi persentase
-        rules[["antecedent support","consequent support","support","confidence"]] = rules[["antecedent support","consequent support","support","confidence"]].applymap(lambda x: "{:.0f}%".format(x*100))
+        rules[["antecedent support", "consequent support", "support", "confidence"]] = rules[
+            ["antecedent support", "consequent support", "support", "confidence"]].applymap(
+            lambda x: "{:.0f}%".format(x * 100))
 
         # Menampilkan frekuensi itemset
         st.write('Frekuensi Item')
-        frq_items = frq_items.sort_values(['support',], ascending=[False])
-        frq_items[["support"]] = frq_items[["support"]].applymap(lambda x: "{:.0f}%".format(x*100))
+        frq_items = frq_items.sort_values(['support', ], ascending=[False])
+        frq_items[["support"]] = frq_items[["support"]].applymap(lambda x: "{:.0f}%".format(x * 100))
         st.dataframe(frq_items.applymap(lambda x: ', '.join(x) if type(x) == frozenset else x))
-        
+
         # Menampilkan hasil algoritma apriori dalam bentuk dataframe
         st.write('Aturan Asosiasi')
         st.dataframe(rules.applymap(lambda x: ', '.join(x) if type(x) == frozenset else x))
