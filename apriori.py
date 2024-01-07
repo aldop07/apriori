@@ -22,20 +22,20 @@ if uploaded_file:
     minimum_support = st.number_input("Minimum Support: ( % )", max_value=100.000)
     minimum_confidence = st.number_input("Minimum Confidence: ( % )", max_value=100.000)
 
-    # Transform DataFrame to the required format
-    transactions = df_original.groupby(f'{A}')[f'{B}'].apply(list).reset_index(name='Items')
-
-    # Convert the 'Items' column to a list of lists
-    dataset = transactions['Items'].tolist()
-
-    # Gunakan mlxtend untuk mencari frequent itemsets
-    te = TransactionEncoder()
-    te_ary = te.fit(dataset).transform(dataset)
-    df_transformed = pd.DataFrame(te_ary, columns=te.columns_)
-
     # Menampilkan hasil algoritma apriori
     if st.button("PROSES"):
         st.success('HASIL PERHITUNGAN APRIORI')
+
+        # Transform DataFrame to the required format
+        transactions = df_original.groupby(f'{A}')[f'{B}'].apply(list).reset_index(name='Items')
+
+        # Convert the 'Items' column to a list of lists
+        dataset = transactions['Items'].tolist()
+
+        # Gunakan mlxtend untuk mencari frequent itemsets
+        te = TransactionEncoder()
+        te_ary = te.fit(dataset).transform(dataset)
+        df_transformed = pd.DataFrame(te_ary, columns=te.columns_)
 
         # Bangun model apriori
         frq_items = apriori(df_transformed, min_support=minimum_support, use_colnames=True)
