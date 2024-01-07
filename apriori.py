@@ -43,23 +43,23 @@ if uploaded_file:
         st.success('HASIL PERHITUNGAN APRIORI')
         
         # Bangun model apriori
-        frq_items = apriori(tabular_encode, min_support=minimum_support, use_colnames= True)
+        #frq_items = apriori(tabular_encode, min_support=minimum_support, use_colnames= True)
 
         # Mengumpulkan aturan dalam dataframe
-        rules = association_rules(frq_items, metric="confidence",min_threshold=minimum_confidence)
-        rules = rules.sort_values(['confidence','lift'], ascending=[False, False])
+        #rules = association_rules(frq_items, metric="confidence",min_threshold=minimum_confidence)
+        #rules = rules.sort_values(['confidence','lift'], ascending=[False, False])
         
         # Mengubah nilai support, confidence, dan lift menjadi persentase
-        rules[["antecedent support","consequent support","support","confidence"]] = rules[["antecedent support","consequent support","support","confidence"]].applymap(lambda x: "{:.0f}%".format(x*100))
+        #rules[["antecedent support","consequent support","support","confidence"]] = rules[["antecedent support","consequent support","support","confidence"]].applymap(lambda x: "{:.0f}%".format(x*100))
 
         # Menampilkan frekuensi itemset
         st.write('Frekuensi Item')
-        frq_items[["support"]] = frq_items[["support"]].applymap(lambda x: "{:.0f}%".format(x*100))
-        st.dataframe(frq_items.applymap(lambda x: ', '.join(x) if type(x) == frozenset else x))
+        #frq_items[["support"]] = frq_items[["support"]].applymap(lambda x: "{:.0f}%".format(x*100))
+        #st.dataframe(frq_items.applymap(lambda x: ', '.join(x) if type(x) == frozenset else x))
         
         # Menampilkan hasil algoritma apriori dalam bentuk dataframe
         st.write('Aturan Asosiasi')
-        st.dataframe(rules.applymap(lambda x: ','.join(x) if type(x) == frozenset else x))
+        #st.dataframe(rules.applymap(lambda x: ','.join(x) if type(x) == frozenset else x))
 
         # Menerapkan fungsi ke seluruh DataFrame
         styled_tabular = tabular.style.applymap(color_positive)
@@ -67,6 +67,7 @@ if uploaded_file:
         # Menampilkan hasil tabulasi data dalam bentuk dataframe
         st.write('Tabulasi Data')
         st.dataframe(styled_tabular)
+        st.dataframe(tabular_encode)
     else:
         st.warning("Tidak ada aturan yang diproses")
 else:
