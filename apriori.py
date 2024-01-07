@@ -33,16 +33,15 @@ if uploaded_file:
         # Menangani duplikat
         df_original.drop_duplicates(inplace=True)
 
-        # Buat kondisi jika A = B dan B = A
-        if A == B or B == A:
-            # Parse kolom "A/B" untuk mendapatkan daftar produk untuk setiap transaksi
-            df_original[f'{A}'] = df_original[f'{A}'].apply(lambda x: [item.strip() for item in x.split(',')])
+        # Parse kolom "Produk" untuk mendapatkan daftar produk untuk setiap transaksi
+        df_original[f'{A}'] = df_original[f'{A}'].apply(lambda x: [item.strip() for item in x.split(',')])
 
-            # Transform DataFrame ke format yang diperlukan
-            transactions = df_original.groupby(f'{A}').apply(list).reset_index(name='Items')
-        else:
-            # Transform DataFrame to the required format
-            transactions = df_original.groupby(f'{A}')[f'{B}'].apply(list).reset_index(name='Items')
+        # Transform DataFrame ke format yang diperlukan
+        transactions = df_original.groupby(f'{A}').apply(list).reset_index(name='Items')
+
+        
+        # Transform DataFrame to the required format
+        #transactions = df_original.groupby(f'{A}')[f'{B}'].apply(list).reset_index(name='Items')
 
         # Convert the 'Items' column to a list of lists
         dataset = transactions['Items'].tolist()
