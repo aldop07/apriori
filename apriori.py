@@ -37,7 +37,7 @@ if uploaded_file:
         df_original[f'{A}'] = df_original[f'{A}'].apply(lambda x: [item.strip() for item in x.split(',')])
 
         # Transform DataFrame ke format yang diperlukan
-        transactions = df_original.groupby(f'{A}').apply(list).reset_index(name='Items')
+        transactions = df_original.groupby(f'{A}')[f'{A}'].apply(list).reset_index(name='Items')
 
         
         # Transform DataFrame to the required format
