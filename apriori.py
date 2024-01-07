@@ -65,12 +65,19 @@ if uploaded_file:
         # Mengubah nilai support, confidence, dan lift menjadi persentase
         rules[["antecedent support","consequent support","support","confidence"]] = rules[["antecedent support","consequent support","support","confidence"]].applymap(lambda x: "{:.0f}%".format(x*100))
 
-        # Normalisasi urutan antecedents dan consequents sebelum menghapus duplikat
-        rules['antecedents'] = rules['antecedents'].apply(lambda x: frozenset(sorted(x)))
-        rules['consequents'] = rules['consequents'].apply(lambda x: frozenset(sorted(x)))
-        
-        # Menghapus aturan yang merupakan duplikat berdasarkan antecedents dan consequents
-        rules = rules.drop_duplicates(subset=["antecedents", "consequents"])
+        # Menggunakan frozenset sebagai kunci untuk menghindari pengaruh urutan
+        rules['antecedents'] = rules['antecedents'].apply(frozenset)
+        rules['consequents'] = rules['consequents'].apply(frozenset)
+
+        # Menggunakan set untuk menyimpan aturan yang sudah ada
+        unique_rules = set()
+
+        # Menyimpan aturan yang unik
+        for index, row in rules.iterrows():
+            unique_rules.add((row['antecedents'], row['consequents']))
+
+        # Membuat DataFrame dari aturan yang unik
+        unique_rules_df = pd.DataFrame(list(unique_rules), columns=['antecedents', 'consequents'])
 
         # Menampilkan frekuensi itemset
         st.write('Frekuensi Item')
