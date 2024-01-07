@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 from mlxtend.frequent_patterns import apriori, association_rules
+from mlxtend.preprocessing import TransactionEncoder
 
 #IRFAN NOVALDO HUANG
 icon = 'https://th.bing.com/th/id/R.a406cbfb23b4d4937c5c3e323a7cb567?rik=4qO3lF%2ftE0LZTg&riu=http%3a%2f%2f1.bp.blogspot.com%2f-I-do3iLl5rs%2fUsuaG8IcjhI%2fAAAAAAAAAIE%2fXmXj-zTkS9U%2fs1600%2fUnsera.png&ehk=7Q%2f63voOpFTnTFwucAoLvddSl03O7NITAf9NPD3Ge7M%3d&risl=&pid=ImgRaw&r=0'
@@ -32,22 +33,23 @@ if uploaded_file:
     # Menerapkan fungsi ke seluruh DataFrame
     styled_tabular = tabular.style.applymap(color_positive)
 
-    # Data dibaca dengan cara encoding
-    def hot_encode(x) :
-            if (x<=0):
-                return 0
-            if (x>=1):
-                return 1
-                
-    # Buat data menjadi binominal
-    tabular_encode = tabular.applymap(hot_encode)
+    # Transform DataFrame to the required format
+    transactions = df.groupby(A)[B].apply(list).reset_index(name='Items')
+
+    # Convert the 'Items' column to a list of lists
+    dataset = transactions['Items'].tolist()
+
+    # Gunakan mlxtend untuk mencari frequent itemsets
+    te = TransactionEncoder()
+    te_ary = te.fit(dataset).transform(dataset)
+    df = pd.DataFrame(te_ary, columns=te.columns_)
 
    # Menampilkan hasil algoritma apriori
     if st.button("PROSES"):
         st.success('HASIL PERHITUNGAN APRIORI')
         
         # Bangun model apriori
-        frq_items = apriori(tabular_encode, min_support=minimum_support, use_colnames= True)
+        frq_items = apriori(dataset, min_support=minimum_support, use_colnames= True)
 
         # Mengumpulkan aturan dalam dataframe
         rules = association_rules(frq_items, metric="confidence",min_threshold=minimum_confidence)
@@ -71,14 +73,9 @@ if uploaded_file:
         st.write('Aturan Asosiasi')
         st.dataframe(rules.applymap(lambda x: ', '.join(x) if type(x) == frozenset else x))
 
-        # Menerapkan fungsi ke seluruh DataFrame
-        styled_tabular_encode = tabular_encode.style.applymap(color_positive)
-
         # Menampilkan hasil tabulasi data dalam bentuk dataframe
-        st.write('Tabulasi Data Sebelum Encode')
+        st.write('Tabulasi')
         st.dataframe(styled_tabular)
-        st.write('Tabulasi Data Setelah Encode')
-        st.dataframe(styled_tabular_encode)
 
     else:
         st.warning("Tidak ada aturan yang diproses")
