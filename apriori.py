@@ -59,6 +59,7 @@ if uploaded_file:
         # Menampilkan frekuensi itemset
         st.write('Frekuensi Item')
         frq_items[["support"]] = frq_items[["support"]].applymap(lambda x: "{:.0f}%".format(x*100))
+        frq_items = frq_items.sort_values(['support'], ascending=[False, False])
         st.dataframe(frq_items.applymap(lambda x: ', '.join(x) if type(x) == frozenset else x))
         
         # Menampilkan hasil algoritma apriori dalam bentuk dataframe
