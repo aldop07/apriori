@@ -20,9 +20,7 @@ if uploaded_file:
 
     # Menentukan nilai minimum support
     minimum_support = st.number_input("Minimum Support: ( % )", max_value=100.000)
-    minimum_support = minimum_support / 100
     minimum_confidence = st.number_input("Minimum Confidence: ( % )", max_value=100.000)
-    minimum_confidence = minimum_confidence / 100
     
     # Menampilkan hasil algoritma apriori
     if st.button("PROSES"):
