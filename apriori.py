@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from mlxtend.frequent_patterns import apriori, association_rules
+from mlxtend.frequent_patterns import apriori, fpgrowth, association_rules
 from mlxtend.preprocessing import TransactionEncoder
 
 #IRFAN NOVALDO HUANG
@@ -19,8 +19,10 @@ if uploaded_file:
     B = st.selectbox('Y / Product', index_list)
 
     # Menentukan nilai minimum support
-    minimum_support = st.number_input("Minimum Support: ( % )", max_value=100.000)
-    minimum_confidence = st.number_input("Minimum Confidence: ( % )", max_value=100.000)
+    minimum_support = st.number_input("Minimum Support: ( % )", 0, max_value=100)
+    minimum_support_bagi = minimum_support / 100
+    minimum_confidence = st.number_input("Minimum Confidence: ( % )", 0, max_value=100)
+    minimum_confidence_bagi = minimum_confidence / 100
     
     # Menampilkan hasil algoritma apriori
     if st.button("PROSES"):
@@ -47,13 +49,13 @@ if uploaded_file:
         df_transformed = pd.DataFrame(te_ary, columns=te.columns_)
 
         # Bangun model apriori
-        frq_items = apriori(df_transformed, min_support=minimum_support, use_colnames=True)
+        frq_items = fpgrowth(df_transformed, min_support=minimum_support_bagi, use_colnames=True)
 
         # Mengumpulkan aturan dalam dataframe
-        rules = association_rules(frq_items, metric="confidence", min_threshold=0.001)
+        rules = association_rules(frq_items, metric="confidence", min_threshold=minimum_confidence)
 
         # Drop lift leverage dan conviction
-        rules = rules.drop(['zhangs_metric', 'lift', 'leverage', 'conviction'], axis=1)
+        rules = rules.drop(['lift', 'leverage', 'conviction'], axis=1)
 
         # Mengubah nilai support, confidence, dan lift menjadi persentase
         rules[["antecedent support", "consequent support", "support", "confidence"]] = rules[["antecedent support", "consequent support", "support", "confidence"]].applymap(lambda x: "{:.0f}%".format(x * 100))
