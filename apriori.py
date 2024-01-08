@@ -35,11 +35,10 @@ if uploaded_file:
         df_original.drop_duplicates(inplace=True)
 
         if A == B or B == A:
-            # Transform DataFrame to the required format
-            transactions = df_original[f'{A}'].apply(lambda x: ', '.join(x)).reset_index(name='Items')
 
             # Convert the 'Items' column to a list of lists
-            dataset = transactions['Items'].apply(lambda x: [item.strip() for item in x.split(', ')]).tolist()
+            dataset = df_original[f'{A}'].apply(lambda x: [item.strip() for item in x.split(', ')]).tolist()
+            
         else:
             # Transform DataFrame to the required format
             transactions = df_original.groupby(f'{A}')[f'{B}'].apply(list).reset_index(name='Items')
