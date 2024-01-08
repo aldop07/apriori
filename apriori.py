@@ -29,7 +29,7 @@ if uploaded_file:
         st.success('HASIL PERHITUNGAN APRIORI')
 
         # Membuat DataFrame baru hanya dengan kolom A dan B
-        df_original[[A, B]]
+        df_original = df_original[[A, B]]
 
         # Membersihkan nilai yang hilang
         df_original.dropna(inplace=True)
