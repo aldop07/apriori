@@ -50,7 +50,7 @@ if uploaded_file:
         frq_items = apriori(df_transformed, min_support=minimum_support, use_colnames=True)
 
         # Mengumpulkan aturan dalam dataframe
-        rules = association_rules(frq_items, metric="confidence", min_threshold=minimum_confidence)
+        rules = association_rules(frq_items, metric="confidence", min_threshold=0.001)
 
         # Drop lift leverage dan conviction
         rules = rules.drop(['zhangs_metric', 'lift', 'leverage', 'conviction'], axis=1)
