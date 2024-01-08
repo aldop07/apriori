@@ -34,15 +34,12 @@ if uploaded_file:
         # Membersihkan nilai yang duplikat
         df_original.drop_duplicates(inplace=True)
 
-        if A == B or B == A:
-
+        if A == B:
             # Convert the 'Items' column to a list of lists
             dataset = df_original[f'{A}'].apply(lambda x: [item.strip() for item in x.split(', ')]).tolist()
-            
         else:
             # Transform DataFrame to the required format
             transactions = df_original.groupby(f'{A}')[f'{B}'].apply(list).reset_index(name='Items')
-
             # Convert the 'Items' column to a list of lists
             dataset = transactions['Items'].tolist()
 
