@@ -73,7 +73,7 @@ if uploaded_file:
         st.dataframe(frq_items.applymap(lambda x: ', '.join(x) if type(x) == frozenset else x))
 
         # Menampilkan hasil algoritma apriori dalam bentuk dataframe
-        st.write(f'Ditemukan {len(rules)} Aturan Asosiasi')
+        st.write(f'Ditemukan {len(rules)} Aturan Asosiasi dari total {len(dataset)} transaksi')
         st.dataframe(rules.applymap(lambda x: ', '.join(x) if type(x) == frozenset else x))
         #st.write(f'{dataset}')
         #st.dataframe(df_original)
