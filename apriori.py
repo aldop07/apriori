@@ -61,7 +61,7 @@ if uploaded_file:
         rules = rules.drop(['zhangs_metric','lift', 'leverage', 'conviction'], axis=1)
 
         # Mengubah nilai support, confidence, dan lift menjadi persentase
-        rules[["antecedent support", "consequent support", "support", "confidence"]] = rules[["antecedent support", "consequent support", "support", "confidence"]].applymap(lambda x: "{:.2f}%".format(x * 100))
+        rules[["antecedent support", "consequent support", "support", "confidence"]] = rules[["antecedent support", "consequent support", "support", "confidence"]].applymap(lambda x: "{:.0f}%".format(x * 100))
         
         # Menampilkan data nilai terbesar berada di atas
         rules = rules.sort_values(['confidence', 'support'], ascending=[False, False])
@@ -69,7 +69,7 @@ if uploaded_file:
         # Menampilkan frekuensi itemset
         st.write(f' Terdapat {len(frq_items)} Frekuensi Item')
         frq_items = frq_items.sort_values(['support', ], ascending=[False])
-        frq_items[["support"]] = frq_items[["support"]].applymap(lambda x: "{:.2f}%".format(x * 100))
+        frq_items[["support"]] = frq_items[["support"]].applymap(lambda x: "{:.0f}%".format(x * 100))
         st.dataframe(frq_items.applymap(lambda x: ', '.join(x) if type(x) == frozenset else x))
 
         # Menampilkan hasil algoritma apriori dalam bentuk dataframe
