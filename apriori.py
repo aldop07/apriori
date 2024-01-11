@@ -69,7 +69,7 @@ if uploaded_file:
         rules = association_rules(frq_items, metric="confidence", min_threshold=minimum_confidence)
 
         # Drop lift leverage dan conviction
-        rules = rules.drop(['lift', 'leverage', 'conviction'], axis=1)
+        rules = rules.drop(['lift', 'leverage', 'conviction','zhangs_metric'], axis=1)
 
         # Mengubah nilai support, confidence, dan lift menjadi persentase
         rules[["antecedent support", "consequent support", "support", "confidence"]] = rules[["antecedent support", "consequent support", "support", "confidence"]].applymap(lambda x: "{:.0f}%".format(x * 100))
