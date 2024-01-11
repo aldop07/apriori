@@ -15,8 +15,8 @@ uploaded_file = st.file_uploader("Pilih file Excel/xlsx yang diupload:")
 if uploaded_file:
     df_original = pd.read_excel(uploaded_file)
     index_list = df_original.columns.tolist()
-    A = st.selectbox('X / Invoice', index_list)
-    B = st.selectbox('Y / Product', index_list)
+    A = st.selectbox('Invoice / ID', index_list)
+    B = st.selectbox('Product / Produk', index_list)
 
     # Menentukan nilai minimum support
     minimum_support = st.number_input("Minimum Support: ( % )", 0, max_value=100)
