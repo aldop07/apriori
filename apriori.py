@@ -47,7 +47,7 @@ if uploaded_file:
 
         if data == "Denormalisasi":
             # Konversi kolom 'Items' menjadi list of lists
-            dataset = df[f'{A}'].apply(lambda x: [item.strip() for item in x.split(', ')]).tolist()
+            dataset = df[f'{B}'].apply(lambda x: [item.strip() for item in x.split(', ')]).tolist()
         else:
             pass
         if data == "Normalisasi":
