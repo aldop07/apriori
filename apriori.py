@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from mlxtend.frequent_patterns import apriori, association_rules
+from mlxtend.frequent_patterns import apriori, fpgrowth, association_rules
 from mlxtend.preprocessing import TransactionEncoder
 
 #IRFAN NOVALDO HUANG
@@ -52,7 +52,7 @@ if uploaded_file:
         df_transformed = pd.DataFrame(te_ary, columns=te.columns_)
 
         # Bangun model apriori
-        frq_items = apriori(df_transformed, min_support=minimum_support, use_colnames=True)
+        frq_items = fpgrowth(df_transformed, min_support=minimum_support, use_colnames=True)
 
         # Mengumpulkan aturan dalam dataframe
         rules = association_rules(frq_items, metric="confidence", min_threshold=minimum_confidence)
