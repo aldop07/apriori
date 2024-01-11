@@ -16,8 +16,8 @@ if uploaded_file:
     df = pd.read_excel(uploaded_file)
     index_list = df.columns.tolist()
     data = st.radio("Pilih Tipe Data", ["Normalisasi","Denormalisasi"])
-    A = st.selectbox('X / Invoice', index_list)
-    B = st.selectbox('Y / Product', index_list)
+    A = st.selectbox('Id Transaksi', index_list)
+    B = st.selectbox('Daftar Produk', index_list)
     
     # Mendapatkan daftar unik dari semua kolom
     data_unik = df.stack().unique()
