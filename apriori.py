@@ -87,7 +87,6 @@ if uploaded_file:
         st.write(f'Ditemukan {len(rules)} Aturan Asosiasi dari total {len(dataset)} data  transaksi')
         st.dataframe(rules.applymap(lambda x: ', '.join(x) if type(x) == frozenset else x))
         st.dataframe(dataset)
-        st.write(f'{dataset}')
     else:
         st.warning("Tidak ada aturan yang diproses")
 else:
