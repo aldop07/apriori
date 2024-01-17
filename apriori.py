@@ -15,7 +15,6 @@ uploaded_file = st.file_uploader("Pilih file Excel/xlsx yang diupload:")
 if uploaded_file:
     df = pd.read_excel(uploaded_file)
     index_list = df.columns.tolist()
-    data = st.radio("Pilih Tipe Data", ["Normalisasi","Denormalisasi"])
     A = st.selectbox('Id Transaksi', index_list)
     B = st.selectbox('Daftar Produk', index_list)
     
@@ -45,18 +44,11 @@ if uploaded_file:
         # Membersihkan nilai yang duplikat
         df.drop_duplicates(inplace=True)
 
-        if data == "Denormalisasi":
-            # Konversi kolom 'Items' menjadi list of lists
-            dataset = df[f'{B}'].apply(lambda x: [item.strip() for item in x.split(', ')]).tolist()
-        else:
-            pass
-        if data == "Normalisasi":
-            # Transformasi DataFrame ke dalam format yang diperlukan
-            transactions = df.groupby(f'{A}')[f'{B}'].apply(list).reset_index(name='Items')
-            # Konversi kolom 'Items' menjadi list of lists
-            dataset = transactions['Items'].tolist()
-        else:
-            pass
+        # Transformasi DataFrame ke dalam format yang diperlukan
+        transactions = df.groupby(f'{A}')[f'{B}'].apply(list).reset_index(name='Items')
+        # Konversi kolom 'Items' menjadi list of lists
+        dataset = transactions['Items'].tolist()
+
         # Gunakan mlxtend untuk mencari frequent itemsets
         te = TransactionEncoder()
         te_ary = te.fit(dataset).transform(dataset)
