@@ -14,16 +14,16 @@ st.header('Market Basket Analysis')
 uploaded_file = st.file_uploader("Pilih file Excel/xlsx yang diupload:")
 if uploaded_file:
     df = pd.read_excel(uploaded_file)
-    index_list = df.columns.tolist()
-    A = st.selectbox('Id Transaksi', index_list)
-    B = st.selectbox('Daftar Produk', index_list)
-    
     # Mendapatkan daftar unik dari semua kolom
     data_unik = df.stack().unique()
     item = st.multiselect('Daftar item unik yang akan di cleaning', data_unik)
     
     # Menyaring DataFrame sesuai dengan item yang dipilih
     df = df[~df.apply(lambda row: any(val in item for val in row), axis=1)]
+    
+    index_list = df.columns.tolist()
+    A = st.selectbox('Id Transaksi', index_list)
+    B = st.selectbox('Daftar Produk', index_list)
     
     # Menentukan nilai minimum support
     minimum_support = st.number_input("Minimum Support: ( % )", 0, max_value=100)
