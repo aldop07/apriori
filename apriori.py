@@ -65,16 +65,16 @@ if uploaded_file:
 
         # Mengubah nilai support, confidence, dan lift menjadi persentase
         rules[["antecedent support", "consequent support", "support", "confidence"]] = rules[["antecedent support", "consequent support", "support", "confidence"]].applymap(lambda x: "{:.0f}%".format(x * 100))
-        
-        # Menampilkan data nilai terbesar berada di atas
-        rules = rules.sort_values(['confidence', 'support'], ascending=[False, False])
-        
+
         # Menghapus redundansi data pada aturan
         rules['antecedents'] = rules['antecedents'].apply(lambda x: frozenset(x))
         rules['consequents'] = rules['consequents'].apply(lambda x: frozenset(x))
-        
-        # Menghapus baris yang memiliki aturan yang sama
-        rules = rules.drop_duplicates(subset=['antecedents', 'consequents'])
+
+        # Menampilkan data nilai terbesar berada di atas
+        rules = rules.sort_values(['confidence', 'support'], ascending=[False, False])
+
+        # Memilih hanya aturan dengan urutan terbaik
+        rules = rules.drop_duplicates(subset=['antecedents', 'consequents'], keep='first')
 
         # Menampilkan frekuensi itemset
         st.write(f'Terdapat {len(frq_items)} Frekuensi Item')
