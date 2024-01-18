@@ -81,21 +81,19 @@ if uploaded_file:
             # Cek apakah aturan kebalikan sudah ada dalam DataFrame
             if any((rules['antecedents'] == set(consequent)) & (rules['consequents'] == set(antecedent))):
                 # Jika aturan kebalikan sudah ada, cek confidence
-                existing_index = rules[(rules['antecedents'] == set(consequent)) & (rules['consequents'] == set(antecedent))].index[0]
-
+                existing_indices = rules[(rules['antecedents'] == set(consequent)) & (rules['consequents'] == set(antecedent))].index
+            
                 # Hapus aturan yang memiliki confidence lebih rendah
-                if rule['confidence'] < rules.loc[existing_index, 'confidence']:
-                    to_remove.add(i)
-                elif rule['confidence'] == rules.loc[existing_index, 'confidence']:
-                    # Hapus aturan terakhir dengan confidence yang sama
-                    if i > existing_index:
-                        to_remove.add(existing_index)
-                    else:
+                for existing_index in existing_indices:
+                    if rule['confidence'] < rules.loc[existing_index, 'confidence']:
                         to_remove.add(i)
-
-
-        # Drop aturan yang memiliki kebalikan dengan confidence lebih rendah
-        rules = rules.drop(to_remove)
+                    elif rule['confidence'] == rules.loc[existing_index, 'confidence']:
+                        # Hapus aturan terakhir dengan confidence yang sama
+                        if i > existing_index and i == existing_indices[-1]:
+                            to_remove.add(existing_index)
+            
+            # Drop aturan yang memiliki kebalikan dengan confidence lebih rendah
+            rules = rules.drop(to_remove)
 
         # Drop lift leverage dan conviction
         rules = rules.drop(['lift', 'leverage', 'conviction','zhangs_metric'], axis=1)
