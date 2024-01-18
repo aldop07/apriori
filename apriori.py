@@ -67,7 +67,7 @@ if uploaded_file:
         rules[["antecedent support", "consequent support", "support", "confidence"]] = rules[["antecedent support", "consequent support", "support", "confidence"]].applymap(lambda x: "{:.0f}%".format(x * 100))
         
         # Menampilkan data nilai terbesar berada di atas
-        rules = rules.sort_values(['confidence', 'support'], ascending=[False, False]).head(1)
+        rules = rules.sort_values(['confidence', 'support'], ascending=[False, False])
 
         # Menampilkan frekuensi itemset
         st.write(f'Terdapat {len(frq_items)} Frekuensi Item')
