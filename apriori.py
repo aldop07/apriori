@@ -69,8 +69,8 @@ if uploaded_file:
         # Menampilkan data nilai terbesar berada di atas
         rules = rules.sort_values(['confidence', 'support'], ascending=[False, False])
         
-        # Menghapus aturan-asosiasi redundan
-        rules = rules.drop_duplicates(['antecedents', 'consequents'])
+        # Menghapus aturan-asosiasi yang serupa
+        rules = rules.drop_duplicates(subset=['antecedents', 'consequents'], keep='first')
 
         # Menampilkan frekuensi itemset
         st.write(f'Terdapat {len(frq_items)} Frekuensi Item')
