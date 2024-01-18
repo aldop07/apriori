@@ -70,7 +70,7 @@ if uploaded_file:
         rules = rules.sort_values(['confidence', 'support'], ascending=[False, False])
         
         # Menghapus aturan-asosiasi redundan
-        rules = rules.groupby(['antecedents', 'consequents']).apply(lambda x: x.nlargest(1, 'confidence')).reset_index(drop=True)
+        rules = rules.drop_duplicates(['antecedents', 'consequents']).head(1)
 
         # Menampilkan frekuensi itemset
         st.write(f'Terdapat {len(frq_items)} Frekuensi Item')
