@@ -90,7 +90,7 @@ if uploaded_file:
                     to_remove.add(existing_index)
 
         # Drop aturan yang memiliki kebalikan dengan confidence lebih rendah
-        rules = rules.drop(to_remove)
+        #rules = rules.drop(to_remove)
 
         # Drop lift leverage dan conviction
         rules = rules.drop(['lift', 'leverage', 'conviction','zhangs_metric'], axis=1)
