@@ -25,7 +25,13 @@ if uploaded_file:
     A = st.selectbox('Id Transaksi', index_list)
     B = st.selectbox('Daftar Produk', index_list)
     
-    # Menentukan nilai minimum support
+    # Mengambil kolom yang dipilih dari DataFrame yang sudah disaring
+    produk_unik = df[B]
+    
+    # Mendapatkan daftar produk unik dari kolom yang dipilih
+    j_produk = produk_unik.unique()
+    
+    # Menentukan nilai minimum support dan confidence
     minimum_support = st.number_input("Minimum Support: ( % )", 0, max_value=100)
     minimum_support_bagi = minimum_support / 100
     minimum_confidence = st.number_input("Minimum Confidence: ( % )", 0, max_value=100)
@@ -96,7 +102,7 @@ if uploaded_file:
         rules = rules.sort_values(['confidence', 'support'], ascending=[False, False])
 
         # Menampilkan frekuensi itemset
-        st.write(f'Terdapat {len(frq_items)} Frekuensi Item')
+        st.write(f'Dari total {len(j_produk)} produk yang terjual terdapat {len(frq_items)} frekuensi item')
         frq_items = frq_items.sort_values(['support', ], ascending=[False])
         frq_items[["support"]] = frq_items[["support"]].applymap(lambda x: "{:.0f}%".format(x * 100))
         st.dataframe(frq_items.applymap(lambda x: ', '.join(x) if type(x) == frozenset else x))
