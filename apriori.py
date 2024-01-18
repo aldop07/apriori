@@ -59,22 +59,18 @@ if uploaded_file:
 
         # Mengumpulkan aturan dalam dataframe
         rules = association_rules(frq_items, metric="confidence", min_threshold=minimum_confidence)
+        
+        # Hapus aturan asosiasi yang serupa
+        rules = rules.drop_duplicates(subset=['antecedents', 'consequents'], keep='first')
 
         # Drop lift leverage dan conviction
-        rules = rules.drop(['lift', 'leverage', 'conviction','zhangs_metric'], axis=1)
+        rules = rules.drop(['lift', 'leverage', 'conviction'], axis=1)
 
         # Mengubah nilai support, confidence, dan lift menjadi persentase
         rules[["antecedent support", "consequent support", "support", "confidence"]] = rules[["antecedent support", "consequent support", "support", "confidence"]].applymap(lambda x: "{:.0f}%".format(x * 100))
 
-        # Menghapus redundansi data pada aturan
-        rules['antecedents'] = rules['antecedents'].apply(lambda x: frozenset(x))
-        rules['consequents'] = rules['consequents'].apply(lambda x: frozenset(x))
-
         # Menampilkan data nilai terbesar berada di atas
         rules = rules.sort_values(['confidence', 'support'], ascending=[False, False])
-
-        # Memilih hanya aturan dengan urutan terbaik
-        rules = rules.drop_duplicates(subset=['antecedents', 'consequents'], keep='last')
 
         # Menampilkan frekuensi itemset
         st.write(f'Terdapat {len(frq_items)} Frekuensi Item')
@@ -85,7 +81,6 @@ if uploaded_file:
         # Menampilkan hasil algoritma apriori dalam bentuk dataframe
         st.write(f'Ditemukan {len(rules)} Aturan Asosiasi dari total {len(dataset)} data  transaksi')
         st.table(rules.applymap(lambda x: ', '.join(x) if type(x) == frozenset else x))
-        st.dataframe(dataset)
     else:
         st.warning("Tidak ada aturan yang diproses")
 else:
