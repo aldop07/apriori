@@ -69,12 +69,8 @@ if uploaded_file:
         # Menampilkan data nilai terbesar berada di atas
         rules = rules.sort_values(['confidence', 'support'], ascending=[False, False])
         
-        # Membuat kolom baru dengan aturan-asosiasi yang diurutkan
-        rules['sorted_antecedents'] = rules['antecedents'].apply(lambda x: tuple(sorted(x)))
-        rules['sorted_consequents'] = rules['consequents'].apply(lambda x: tuple(sorted(x)))
-        
         # Menghapus aturan-asosiasi redundan
-        rules = rules.drop_duplicates(subset=['sorted_antecedents', 'sorted_consequents'])
+        rules = rules.groupby(['antecedents', 'consequents']).apply(lambda x: x.nlargest(1, 'confidence')).reset_index(drop=True)
 
         # Menampilkan frekuensi itemset
         st.write(f'Terdapat {len(frq_items)} Frekuensi Item')
