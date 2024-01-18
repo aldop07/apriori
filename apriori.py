@@ -69,7 +69,11 @@ if uploaded_file:
         # Menampilkan data nilai terbesar berada di atas
         rules = rules.sort_values(['confidence', 'support'], ascending=[False, False])
         
-        # Menghapus redundansi data
+        # Menghapus redundansi data pada aturan
+        rules['antecedents'] = rules['antecedents'].apply(lambda x: frozenset(x))
+        rules['consequents'] = rules['consequents'].apply(lambda x: frozenset(x))
+        
+        # Menghapus baris yang memiliki aturan yang sama
         rules = rules.drop_duplicates(subset=['antecedents', 'consequents'])
 
         # Menampilkan frekuensi itemset
