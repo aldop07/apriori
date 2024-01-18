@@ -81,16 +81,13 @@ if uploaded_file:
             # Cek apakah aturan kebalikan sudah ada dalam DataFrame
             if any((rules['antecedents'] == set(consequent)) & (rules['consequents'] == set(antecedent))):
                 # Jika aturan kebalikan sudah ada, cek confidence
-                existing_indices = rules[(rules['antecedents'] == set(consequent)) & (rules['consequents'] == set(antecedent))].index
-            
+                existing_index = rules[(rules['antecedents'] == set(consequent)) & (rules['consequents'] == set(antecedent))].index[0]
+
                 # Hapus aturan yang memiliki confidence lebih rendah
-                for existing_index in existing_indices:
-                    if rule['confidence'] < rules.loc[existing_index, 'confidence']:
-                        to_remove.add(i)
-                    elif rule['confidence'] == rules.loc[existing_index, 'confidence']:
-                        # Hapus aturan terakhir dengan confidence yang sama
-                        if i > existing_index and existing_index == existing_indices[-1]:
-                            to_remove.add(existing_index)
+                if rule['confidence'] < rules.loc[existing_index, 'confidence']:
+                    to_remove.add(i)
+                else:
+                    to_remove.add(existing_index)
             
         # Drop aturan yang memiliki kebalikan dengan confidence lebih rendah
         rules = rules.drop(to_remove)
