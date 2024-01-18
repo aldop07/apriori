@@ -74,7 +74,7 @@ if uploaded_file:
         rules = rules.sort_values(['confidence', 'support'], ascending=[False, False])
 
         # Memilih hanya aturan dengan urutan terbaik
-        rules = rules.drop_duplicates(subset=['antecedents', 'consequents'], keep='first')
+        rules = rules.drop_duplicates(subset=['antecedents', 'consequents'], keep='last')
 
         # Menampilkan frekuensi itemset
         st.write(f'Terdapat {len(frq_items)} Frekuensi Item')
