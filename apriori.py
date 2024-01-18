@@ -86,7 +86,7 @@ if uploaded_file:
                 # Hapus aturan yang memiliki confidence lebih rendah
                 if rule['confidence'] < rules.loc[existing_index, 'confidence']:
                     to_remove.add(i)
-                if rule['confidence'] == rules.loc[existing_index, 'confidence']::
+                if rule['confidence'] == rules.loc[existing_index, 'confidence']:
                     to_remove.add(existing_index)
             
         # Drop aturan yang memiliki kebalikan dengan confidence lebih rendah
