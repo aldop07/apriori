@@ -102,7 +102,7 @@ if uploaded_file:
         rules = rules.sort_values(['confidence', 'support'], ascending=[False, False])
 
         # Menampilkan frekuensi itemset
-        st.write(f'Dari total {len(j_produk)} produk yang terjual terdapat {len(frq_items)} frekuensi item')
+        st.write(f'Dari total {len(j_produk)} produk yang terjual terdapat {len(frq_items)} frekuensi item pada data transaksi')
         frq_items = frq_items.sort_values(['support', ], ascending=[False])
         frq_items[["support"]] = frq_items[["support"]].applymap(lambda x: "{:.0f}%".format(x * 100))
         st.dataframe(frq_items.applymap(lambda x: ', '.join(x) if type(x) == frozenset else x))
