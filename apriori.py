@@ -66,41 +66,11 @@ if uploaded_file:
         # Mengumpulkan aturan dalam dataframe
         rules = association_rules(frq_items, metric="confidence", min_threshold=minimum_confidence)
 
-        # Hapus aturan yang memiliki kebalikan dengan confidence lebih rendah
-        to_remove = set()
-
-        for i, rule in rules.iterrows():
-            antecedent = rule['antecedents']
-            consequent = rule['consequents']
-            reversed_rule = (consequent, antecedent, rule['confidence'], rule['support'])
-
-            # Cek apakah aturan kebalikan sudah ada dalam set untuk dihapus
-            if reversed_rule in to_remove:
-                continue
-
-            # Cek apakah aturan kebalikan sudah ada dalam DataFrame
-            if any((rules['antecedents'] == set(consequent)) & (rules['consequents'] == set(antecedent))):
-                # Jika aturan kebalikan sudah ada, cek confidence
-                existing_index = rules[(rules['antecedents'] == set(consequent)) & (rules['consequents'] == set(antecedent))].index[0]
-
-                # Hapus aturan yang memiliki confidence lebih rendah
-                if rule['confidence'] < rules.loc[existing_index, 'confidence']:
-                    to_remove.add(i)
-                else:
-                    to_remove.add(existing_index)
-            
-        # Drop aturan yang memiliki kebalikan dengan confidence lebih rendah
-        rules = rules.drop(to_remove)
-
         # Drop lift leverage dan conviction
         rules = rules.drop(['lift', 'leverage', 'conviction','zhangs_metric'], axis=1)
 
         # Mengubah nilai support, confidence, dan lift menjadi persentase
         rules[["antecedent support", "consequent support", "support", "confidence"]] = rules[["antecedent support", "consequent support", "support", "confidence"]].applymap(lambda x: "{:.0f}%".format(x * 100))
-
-        # Menampilkan data nilai terbesar berada di atas
-        rules = rules.sort_values(['confidence', 'support'], ascending=[False, False])
-
         # Menampilkan frekuensi itemset
         st.write(f'Dari total {len(j_produk)} produk yang terjual terdapat {len(frq_items)} frekuensi item pada data transaksi')
         frq_items = frq_items.sort_values(['support', ], ascending=[False])
@@ -109,8 +79,7 @@ if uploaded_file:
 
         # Menampilkan hasil algoritma apriori dalam bentuk dataframe
         st.write(f'Ditemukan {len(rules)} Aturan Asosiasi dari total {len(dataset)} data  transaksi')
-        st.table(rules.applymap(lambda x: ', '.join(x) if type(x) == frozenset else x))
-        st.table(dataset)
+        st.dataframe(rules.applymap(lambda x: ', '.join(x) if type(x) == frozenset else x))
     else:
         st.warning("Tidak ada aturan yang diproses")
 else:
