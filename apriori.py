@@ -39,8 +39,6 @@ if uploaded_file:
     
     # Menampilkan hasil algoritma apriori
     if st.button("PROSES"):
-        st.success('HASIL PERHITUNGAN APRIORI')
-
         # Membuat DataFrame baru hanya dengan kolom A dan B
         df = df[[A, B]]
 
@@ -69,8 +67,9 @@ if uploaded_file:
         # Drop lift leverage dan conviction
         rules = rules.drop(['lift', 'leverage', 'conviction','zhangs_metric'], axis=1)
         if rules.empty:
-            st.warning("Tidak terdapat aturan yang dihasilkan")
+            st.error("TIDAK DAPAT MENGHASILKAN ATURAN")
         else:
+            st.success('HASIL PERHITUNGAN APRIORI')
             # Mengubah nilai support, confidence, dan lift menjadi persentase
             rules[["antecedent support", "consequent support", "support", "confidence"]] = rules[["antecedent support", "consequent support", "support", "confidence"]].applymap(lambda x: "{:.0f}%".format(x * 100))
             # Menampilkan frekuensi itemset
