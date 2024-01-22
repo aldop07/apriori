@@ -90,7 +90,7 @@ if uploaded_file:
             rules_pdf = rules.applymap(lambda x: ', '.join(x) if type(x) == frozenset else x)
             st.dataframe(rules_pdf)
 
-            # Fungsi untuk menghasilkan file PDF daftar belanja
+            # Fungsi untuk menghasilkan file PDF
             def create_association_rule_pdf(rules, nama_file):
                 # Buat dokumen PDF
                 c = canvas.Canvas(nama_file, pagesize=letter)
@@ -103,12 +103,26 @@ if uploaded_file:
                 # Buat isi tabel
                 x_offset = 50
                 y_offset = 710
+                line_height = 20
+                max_rows_per_page = 35  # Jumlah maksimal baris per halaman
+                current_row = 0
+
                 for i, (_, row) in enumerate(rules.iterrows()):
                     antecedents_str = ', '.join(map(str, row['antecedents']))
                     consequents_str = ', '.join(map(str, row['consequents']))
                     rule_str = f"{antecedents_str} => {consequents_str}, Support: {row['support']}, Confidence: {row['confidence']}"
+
+                    # Gunakan drawString untuk menambahkan teks dengan karakter baris baru
                     c.drawString(x_offset, y_offset, rule_str)
-                    y_offset -= 20
+                    y_offset -= line_height
+                    current_row += 1
+
+                    # Cek apakah mencapai batas maksimal baris per halaman
+                    if current_row == max_rows_per_page:
+                        # Simpan file PDF dan mulai halaman baru
+                        c.showPage()
+                        y_offset = 750
+                        current_row = 0
 
                 # Simpan file PDF
                 c.save()
