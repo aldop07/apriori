@@ -118,13 +118,13 @@ if uploaded_file:
             create_association_rule_pdf(rules, nama_file)
 
             # Tampilkan tombol download
-            #with open(nama_file, "rb") as file:
-            #        btn = st.download_button(
-            #            label="Download PDF",
-            #            data=file,
-            #            file_name=f"Market Basket Analysis {tanggal}.pdf",
-            #            mime="application/pdf"
-            #        )
+            with open(nama_file, "rb") as file:
+                    btn = st.download_button(
+                        label="Download PDF",
+                        data=file,
+                        file_name=f"Market Basket Analysis {tanggal}.pdf",
+                        mime="application/pdf"
+                    )
     else:
         st.warning("Tidak ada aturan yang diproses")
 else:
