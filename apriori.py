@@ -80,7 +80,44 @@ if uploaded_file:
     
             # Menampilkan hasil algoritma apriori dalam bentuk dataframe
             st.write(f'Ditemukan {len(rules)} Aturan Asosiasi dari total {len(dataset)} data  transaksi')
-            st.dataframe(rules.applymap(lambda x: ', '.join(x) if type(x) == frozenset else x))
+            rules_pdf = rules.applymap(lambda x: ', '.join(x) if type(x) == frozenset else x)
+            st.dataframe(rules_pdf)
+
+            # Fungsi untuk menghasilkan file PDF daftar belanja
+            def create_association_rule_pdf(rules, nama_file):
+                # Buat dokumen PDF
+                c = canvas.Canvas(nama_file, pagesize=letter)
+
+                # Atur font dan ukuran untuk konten
+                c.setFont("Helvetica", 12)
+                c.drawString(50, 750, f"Aturan Asosiasi {tanggal}")
+                c.drawString(50, 730, "-" * 100)
+                
+                # Buat isi tabel
+                x_offset = 50
+                y_offset = 710
+                for i, (_, row) in enumerate(rules.iterrows()):
+                    antecedents_str = ', '.join(map(str, row['antecedents']))
+                    consequents_str = ', '.join(map(str, row['consequents']))
+                    rule_str = f"{antecedents_str} => {consequents_str}, Support: {row['support']}, Confidence: {row['confidence']}"
+                    c.drawString(x_offset, y_offset, rule_str)
+                    y_offset -= 20
+
+                # Simpan file PDF
+                c.save()
+
+            # Panggil fungsi untuk membuat file PDF
+            nama_file = "Association Rule.pdf"
+            create_association_rule_pdf(rules, nama_file)
+
+            # Tampilkan tombol download
+            #with open(nama_file, "rb") as file:
+            #        btn = st.download_button(
+            #            label="Download PDF",
+            #            data=file,
+            #            file_name=f"Market Basket Analysis {tanggal}.pdf",
+            #            mime="application/pdf"
+            #        )
     else:
         st.warning("Tidak ada aturan yang diproses")
 else:
