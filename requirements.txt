@@ -3,3 +3,6 @@ streamlit
 mlxtend
 xlrd
 openpyxl
+reportlab
+datetime
+pytz
