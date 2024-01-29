@@ -93,7 +93,7 @@ if uploaded_file:
             st.write('Dataframe berdasarkan nilai Support dan Confidence tertinggi')
             # Menampilkan data nilai terbesar berada di atas
             rules = rules.sort_values(['confidence', 'support'], ascending=[False, False])
-            st.dataframe(rules)
+            st.dataframe(rules.applymap(lambda x: ', '.join(x) if type(x) == frozenset else x)
 
             # Fungsi untuk menghasilkan file PDF
             def create_association_rule_pdf(rules, nama_file):
