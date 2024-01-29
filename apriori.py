@@ -90,6 +90,11 @@ if uploaded_file:
             rules_pdf = rules.applymap(lambda x: ', '.join(x) if type(x) == frozenset else x)
             st.dataframe(rules_pdf)
 
+            st.write('Dataframe berdasarkan nilai Support dan Confidence tertinggi')
+            # Menampilkan data nilai terbesar berada di atas
+            rules = rules.sort_values(['confidence', 'support'], ascending=[False, False])
+            st.dataframe(rules_pdf)
+
             # Fungsi untuk menghasilkan file PDF
             def create_association_rule_pdf(rules, nama_file):
                 # Buat dokumen PDF
