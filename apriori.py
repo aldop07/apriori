@@ -78,11 +78,11 @@ if uploaded_file:
         else:
             st.success('HASIL PERHITUNGAN APRIORI')
             # Mengubah nilai support, confidence, dan lift menjadi persentase
-            rules[["antecedent support", "consequent support", "support", "confidence"]] = rules[["antecedent support", "consequent support", "support", "confidence"]].applymap(lambda x: "{:.0f}%".format(x * 100))
+            rules[["antecedent support", "consequent support", "support", "confidence"]] = rules[["antecedent support", "consequent support", "support", "confidence"]].applymap(lambda x: "{:.9f}%".format(x * 100))
             # Menampilkan frekuensi itemset
             st.write(f'Dari total {len(j_produk)} produk yang terjual terdapat {len(frq_items)} frekuensi itemset pada data transaksi')
             frq_items = frq_items.sort_values(['support', ], ascending=[False])
-            frq_items[["support"]] = frq_items[["support"]].applymap(lambda x: "{:.0f}%".format(x * 100))
+            frq_items[["support"]] = frq_items[["support"]].applymap(lambda x: "{:.9f}%".format(x * 100))
             st.dataframe(frq_items.applymap(lambda x: ', '.join(x) if type(x) == frozenset else x))
     
             # Menampilkan hasil algoritma apriori dalam bentuk dataframe
